@@ -1,0 +1,26 @@
+{
+  "glyphs": {
+    "N": {
+      "ha": 72,
+      "x_min": 9,
+      "x_max": 63,
+      "o": "m 9 0 l 9 72 l 18 72 l 54 18 l 54 72 l 63 72 l 63 0 l 54 0 l 18 54 l 18 0 l 9 0 z"
+    }
+  },
+  "familyName": "Orbitron",
+  "ascender": 72,
+  "descender": 0,
+  "underlinePosition": -8,
+  "underlineThickness": 4,
+  "boundingBox": {
+    "yMin": -8,
+    "yMax": 72,
+    "xMin": 0,
+    "xMax": 72
+  },
+  "resolution": 1000,
+  "original_font_information": {
+    "format": 0,
+    "copyright": "Copyright (c) 2009, Matt McInerney (matt@pixelspread.com), Copyright (c) 2010, Nikolaus Waxweiler (madigens@gmail.com), Copyright (c) 2012, admix (admin@admixweb.com), with Reserved Font Name 'Orbitron'."
+  }
+}

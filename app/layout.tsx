@@ -1,0 +1,46 @@
+import './globals.css';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Navigation } from '@/components/navigation';
+import { Toaster } from '@/components/ui/toaster';
+
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+  title: 'NEONENCY - Futuristic SaaS Solutions',
+  description: 'Next-generation SaaS platform with cutting-edge technology and neon-powered innovation.',
+  keywords: 'SaaS, technology, neon, futuristic, innovation',
+  openGraph: {
+    title: 'NEONENCY - Futuristic SaaS Solutions',
+    description: 'Next-generation SaaS platform with cutting-edge technology and neon-powered innovation.',
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'NEONENCY',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'NEONENCY - Futuristic SaaS Solutions',
+    description: 'Next-generation SaaS platform with cutting-edge technology and neon-powered innovation.',
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} overflow-x-hidden`}>
+        <ThemeProvider attribute="class" defaultTheme="dark">
+          <Navigation />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Toaster />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
