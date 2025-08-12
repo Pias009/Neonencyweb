@@ -1,13 +1,12 @@
 "use client";
 
-import { useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { NeonLogo } from '@/components/neon-logo';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles } from 'lucide-react';
-
-if (typeof window !== 'undefined') {
+import { useRef, useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Sparkles } from "lucide-react";
+import Image from "next/image";
+if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
@@ -18,7 +17,7 @@ export function HeroSection() {
   const buttonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     const hero = heroRef.current;
     const logo = logoRef.current;
@@ -26,33 +25,37 @@ export function HeroSection() {
     const button = buttonRef.current;
 
     if (hero && logo && text && button) {
-      // Initial animation timeline
       const tl = gsap.timeline();
-      
-      // Set initial states
+
       gsap.set([logo, text, button], { opacity: 0, y: 100 });
-      
-      // Animate in sequence
+
       tl.to(logo, {
         opacity: 1,
         y: 0,
         duration: 1.5,
-        ease: "power3.out"
+        ease: "power3.out",
       })
-      .to(text, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out"
-      }, "-=0.8")
-      .to(button, {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power3.out"
-      }, "-=0.5");
+        .to(
+          text,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out",
+          },
+          "-=0.8"
+        )
+        .to(
+          button,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+          },
+          "-=0.5"
+        );
 
-      // Scroll-triggered logo animation
       ScrollTrigger.create({
         trigger: hero,
         start: "top top",
@@ -60,40 +63,38 @@ export function HeroSection() {
         scrub: 1,
         onUpdate: (self) => {
           const progress = self.progress;
-          
-          // Logo transforms to navbar position
+
           gsap.to(logo, {
             scale: 1 - progress * 0.7,
             y: progress * -200,
             x: progress * -300,
             duration: 0.3,
-            ease: "none"
+            ease: "none",
           });
-          
-          // Fade out text and button
+
           gsap.to([text, button], {
             opacity: 1 - progress,
             y: progress * 50,
             duration: 0.3,
-            ease: "none"
+            ease: "none",
           });
-        }
+        },
       });
     }
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
   return (
-    <section 
+    <section
       ref={heroRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Background gradient mesh */}
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10 animate-pulse" />
-      
+
       {/* Floating particles */}
       <div className="absolute inset-0">
         {[...Array(20)].map((_, i) => (
@@ -104,20 +105,27 @@ export function HeroSection() {
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 6}s`,
-              animationDuration: `${4 + Math.random() * 4}s`
+              animationDuration: `${4 + Math.random() * 4}s`,
             }}
           />
         ))}
       </div>
 
       <div className="relative z-10 text-center px-4">
-        {/* 3D Logo */}
-        <div ref={logoRef} className="mb-8 flex justify-center">
-          <div className="relative">
-            <NeonLogo size={200} animate />
-            <div className="absolute -inset-8 bg-gradient-to-r from-cyan-400/20 via-purple-500/20 to-pink-500/20 blur-3xl animate-pulse" />
-          </div>
-        </div>
+        {/* Neon Glow Logo */}
+       <div ref={logoRef} className="mb-8 flex justify-center">
+  <div className="relative">
+    <Image
+      src="/images/logo.jpg"
+      alt="Neonency Logo"
+      width={200}
+      height={200}
+      priority // ensures logo is loaded immediately for better LCP
+      className="object-contain drop-shadow-[0_0_20px_rgba(0,255,255,0.7)]"
+    />
+    <div className="absolute -inset-8 bg-gradient-to-r from-cyan-400/20 via-purple-500/20 to-pink-500/20 blur-3xl animate-pulse" />
+  </div>
+</div>
 
         {/* Hero Text */}
         <div ref={textRef} className="mb-8 space-y-6">
@@ -125,7 +133,8 @@ export function HeroSection() {
             NEONENCY
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Next-generation SaaS platform powered by cutting-edge technology and neon-inspired innovation
+            Next-generation SaaS platform powered by NEONECY technology and
+            inspired innovation
           </p>
           <div className="flex items-center justify-center space-x-4 text-sm text-muted-foreground">
             <div className="flex items-center space-x-2">
@@ -147,8 +156,8 @@ export function HeroSection() {
 
         {/* CTA Button */}
         <div ref={buttonRef}>
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             className="group glass-strong hover:neon-glow transition-all duration-500 px-8 py-4 text-lg orbitron font-medium rounded-2xl border-2 border-cyan-400/30 hover:border-cyan-400/60"
           >
             <span className="neon-text">Explore the Future</span>
