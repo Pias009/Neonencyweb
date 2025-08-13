@@ -128,7 +128,7 @@ export function Navigation() {
               href="/admin"
               className="px-6 py-2 rounded-xl glass-strong hover:neon-glow transition-all duration-300 orbitron font-medium"
             >
-              Admin
+              GET API
             </Link>
           )}
 
