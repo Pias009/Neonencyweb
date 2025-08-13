@@ -142,6 +142,7 @@
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* Custom scrollbar */

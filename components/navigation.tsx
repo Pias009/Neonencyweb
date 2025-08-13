@@ -9,6 +9,7 @@ import { useTheme } from "next-themes";
 import { Sun, Moon, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import NewsPage from "@/app/News/page";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -20,6 +21,7 @@ const navItems = [
   { href: "/careers", label: "Careers" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/News", label: "News" },
 ];
 
 export function Navigation() {
