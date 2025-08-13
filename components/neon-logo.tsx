@@ -53,7 +53,7 @@ export function NeonLogo({ size = 60, animate = false, className = "" }: NeonLog
         camera={{ position: [0, 0, 3], fov: 50 }}
         gl={{ antialias: true, alpha: true }}
       >
-        <ambientLight intensity={0.5} />
+        <ambientLight intensity={0.100} />
         <pointLight position={[10, 10, 10]} intensity={1} />
         <pointLight position={[-10, -10, -10]} intensity={0.5} color="#00ffff" />
         <Logo3D animate={animate} />

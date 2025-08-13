@@ -121,7 +121,7 @@ export function HeroSection() {
       width={200}
       height={200}
       priority // ensures logo is loaded immediately for better LCP
-      className="object-contain drop-shadow-[0_0_20px_rgba(0,255,255,0.7)]"
+      className="object-contain drop-shadow-[0_0_20px_rgba(0,355,55,0.7)]"
     />
     <div className="absolute -inset-8 bg-gradient-to-r from-cyan-400/20 via-purple-500/20 to-pink-500/20 blur-3xl animate-pulse" />
   </div>

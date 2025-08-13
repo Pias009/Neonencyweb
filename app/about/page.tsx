@@ -129,34 +129,73 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
+        {/* Neonecy Intro & Mission Section */}
+<div className="mb-20">
+  {/* Introduction */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
+    <div>
+      <img
+        src="/images/neonecy-intro.jpg"
+        alt="Neonecy Introduction"
+        className="rounded-3xl shadow-xl glass-3d border border-white/20 w-full h-auto object-cover"
+      />
+    </div>
+    <div>
+      <h3 className="text-lg text-cyan-300 mb-2">About us</h3>
+      <h2 className="text-3xl md:text-4xl font-bold orbitron text-white mb-4">Neonecy Introduction</h2>
+      <p className="text-white/80 leading-relaxed">
+        At NEONECY, we are a multidisciplinary digital agency that combines creativity, technology, and strategy to build meaningful digital experiences.
+        Based in Bangladesh and serving clients globally, we specialize in delivering high-impact web development, digital marketing, UI/UX design, SEO, and branding solutions.
+        Our team is passionate about helping businesses grow in the digital era with innovative, scalable, and results-driven strategies.
+      </p>
+    </div>
+  </div>
 
-        {/* Team */}
-        <div className="mb-20">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold orbitron text-cyan-400 mb-4">Meet Our Team</h2>
-            <p className="text-xl text-white">Small, skilled, and passionate professionals delivering end-to-end solutions.</p>
-          </div>
+  {/* Mission */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
+    <div>
+      <h3 className="text-lg text-cyan-300 mb-2">Our Mission</h3>
+      <h2 className="text-3xl md:text-4xl font-bold orbitron text-white mb-4">Neonecy Mission</h2>
+      <p className="text-white/80 leading-relaxed">
+        Our mission is to empower brands through powerful digital transformation. We aim to simplify technology for our clients and create impactful digital solutions
+        that drive engagement, growth, and long-term success. Whether it’s crafting custom websites, running data-driven ad campaigns, or enhancing online presence,
+        we are committed to turning ideas into measurable results.
+      </p>
+    </div>
+    <div>
+      <img
+        src="/images/neonecy-mission.jpg"
+        alt="Neonecy Mission"
+        className="rounded-3xl shadow-xl glass-3d border border-white/20 w-full h-auto object-cover"
+      />
+    </div>
+  </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-              <Card
-                key={index}
-                ref={el => el && (teamRef.current[index] = el)}
-                className="group glass-3d hover:neon-glow transition-all duration-500 border border-white/20 rounded-3xl overflow-hidden transform hover:scale-105 shadow-2xl backdrop-blur-md"
-              >
-                <div className="relative">
-                  <img src={member.image} alt={member.name} className="w-full h-64 object-cover rounded-t-3xl" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold orbitron group-hover:text-cyan-400 transition-colors duration-300 mb-2">{member.name}</h3>
-                  <Badge className="glass-3d text-white mb-4">{member.role}</Badge>
-                  <p className="text-white text-sm leading-relaxed">{member.bio}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
+  {/* What Makes Us Different */}
+  <div className="text-center mb-12">
+    <h3 className="text-lg text-cyan-300 mb-2">Our Mission</h3>
+    <h2 className="text-3xl md:text-4xl font-bold orbitron text-white mb-4">What Makes NEONECY Different</h2>
+  </div>
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    {[
+      { title: "Client-Centric Approach", desc: "We start every project by understanding your unique business needs. No one-size-fits-all solutions." },
+      { title: "Full Digital Services", desc: "From web development and UI/UX design to SEO, branding, and marketing — everything under one roof." },
+      { title: "Agile & Transparent Process", desc: "Our agile workflow keeps you in the loop at every step with clear progress tracking and quick iterations." },
+      { title: "Innovation with Purpose", desc: "We embrace new technologies and creative thinking, but always in service of meaningful results." }
+    ].map((item, i) => (
+      <div
+        key={i}
+        className="glass-3d p-6 rounded-2xl border border-white/20 shadow-xl backdrop-blur-md hover:neon-glow transform hover:scale-105 transition-all duration-300"
+      >
+        <h3 className="text-xl font-bold orbitron text-white mb-3">{item.title}</h3>
+        <p className="text-white/80 text-sm">{item.desc}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
+
+      
 
       
           </div>

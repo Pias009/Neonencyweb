@@ -10,6 +10,7 @@ import { Sun, Moon, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import NewsPage from "@/app/News/page";
+import Case from "@/app/Case/page";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -22,6 +23,7 @@ const navItems = [
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
   { href: "/News", label: "News" },
+  { href: "/Case", label: "CaseStudy" },
 ];
 
 export function Navigation() {
