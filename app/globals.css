@@ -83,11 +83,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
-    background: linear-gradient(135deg, 
-      rgba(0, 255, 255, 0.05) 0%, 
-      rgba(255, 0, 255, 0.05) 50%, 
-      rgba(139, 92, 246, 0.05) 100%);
+   
+
     min-height: 100vh;
   }
   
@@ -96,6 +93,8 @@
       rgba(0, 0, 0, 0.95) 0%, 
       rgba(20, 20, 40, 0.98) 50%, 
       rgba(0, 0, 0, 0.95) 100%);
+  }h1, h3, h2 {
+    color: var(--neon-yellow);
   }
 }
 
@@ -108,14 +107,7 @@
     @apply backdrop-blur-2xl bg-white/20 dark:bg-black/20 border border-white/30 dark:border-white/20;
   }
   
-  .neon-glow {
-    @apply shadow-[0_0_20px_rgba(0,255,255,0.3)] dark:shadow-[0_0_20px_rgba(0,255,255,0.5)];
-  }
-  
-  .neon-text {
-    @apply text-transparent bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text;
-  }
-  
+ 
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }

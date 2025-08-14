@@ -90,21 +90,7 @@ export default function AboutPage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
-          {stats.map((stat, index) => (
-            <Card
-              key={index}
-              ref={el => el && (statsRef.current[index] = el)}
-              className="glass-3d hover:neon-glow transition-transform duration-500 rounded-3xl border border-white/20 text-center p-8 shadow-xl backdrop-blur-md transform hover:scale-105"
-            >
-              <CardContent className="p-0">
-                <stat.icon className="w-8 h-8 text-cyan-400 mx-auto mb-4" />
-                <div className="text-4xl font-black orbitron text-cyan-400 mb-2">{stat.number}</div>
-                <div className="text-white font-medium">{stat.label}</div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+      
 
         {/* BinGi Development */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start mb-20">
