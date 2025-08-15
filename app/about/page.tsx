@@ -18,34 +18,6 @@ const stats = [
   { number: "50+", label: "Collaborations", icon: Award }
 ];
 
-const team = [
-  {
-    name: "Alex Chen",
-    role: "CEO & Founder",
-    bio: "Visionary leader with 15+ years in tech, previously at Google and Tesla.",
-    image: "https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=300"
-  },
-  {
-    name: "Sarah Johnson",
-    role: "CTO",
-    bio: "Former SpaceX engineer specializing in scalable systems and AI.",
-    image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300"
-  },
-  {
-    name: "Marcus Rodriguez",
-    role: "Head of Design",
-    bio: "Award-winning designer with experience at Apple and Airbnb.",
-    image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=300"
-  },
-  {
-    name: "Emily Wang",
-    role: "VP of Engineering",
-    bio: "Full-stack expert and open-source contributor with 12+ years experience.",
-    image: "https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg?auto=compress&cs=tinysrgb&w=300"
-  }
-];
-
-
 export default function AboutPage() {
   const headerRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement[]>([]);
@@ -80,22 +52,10 @@ export default function AboutPage() {
   return (
     <div className="pt-32 pb-16 px-4 bg-gray-1000">
       <div className="max-w-7xl mx-auto">
-
-        {/* Header */}
-        <div ref={headerRef} className="text-center mb-20">
-          <h1 className="text-5xl md:text-6xl orbitron text-cyan-300 text-whit mb-6">About Us</h1>
-          <p className="text-xl text-white max-w-3xl mx-auto">
-            We bridge Web2 and Web3 technologies, offering SaaS, PHP, MERN, and Flutter development to deliver innovative digital solutions.
-          </p>
-        </div>
-
-        {/* Stats */}
-      
-
         {/* BinGi Development */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start mb-20">
           <div className="md:col-span-1">
-            <h2 className="text-4xl font-bold orbitron text-cyan-400 mb-4">BinGi Development</h2>
+            <h2 className="text-4xl font-bold text-cyan-300 mb-4">BinGi Development</h2>
             <p className="text-lg text-white leading-relaxed">
               One of our flagship initiatives is the development of BinGi, a cutting-edge platform that aims to reshape the landscape of digital finance. BinGi offers seamless currency exchanges, secure transactions, and a user-friendly interface powered by the latest web and blockchain technologies.
             </p>
@@ -115,77 +75,72 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
+
         {/* Neonecy Intro & Mission Section */}
-<div className="mb-20">
-  {/* Introduction */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
-    <div>
-      <img
-        src="/images/neonecy-intro.jpg"
-        alt="Neonecy Introduction"
-        className="rounded-3xl shadow-xl glass-3d border border-white/20 w-full h-auto object-cover"
-      />
-    </div>
-    <div>
-      <h3 className="text-lg text-cyan-300 mb-2">About us</h3>
-      <h2 className="text-3xl md:text-4xl font-bold orbitron text-white mb-4">Neonecy Introduction</h2>
-      <p className="text-white/80 leading-relaxed">
-        At NEONECY, we are a multidisciplinary digital agency that combines creativity, technology, and strategy to build meaningful digital experiences.
-        Based in Bangladesh and serving clients globally, we specialize in delivering high-impact web development, digital marketing, UI/UX design, SEO, and branding solutions.
-        Our team is passionate about helping businesses grow in the digital era with innovative, scalable, and results-driven strategies.
-      </p>
-    </div>
-  </div>
+        <div className="mb-20">
+          {/* Introduction */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
+            <div>
+              <img
+                src="/images/neonecy-intro.jpg"
+                alt="Neonecy Introduction"
+                className="rounded-3xl shadow-xl glass-3d border border-white/20 w-full h-auto object-cover"
+              />
+            </div>
+            <div>
+              <h3 className="text-lg text-cyan-300 mb-2">About us</h3>
+              <h2 className="text-3xl md:text-4xl font-bold orbitron text-white mb-4">Neonecy Introduction</h2>
+              <p className="text-white leading-relaxed">
+                At NEONECY, we are a multidisciplinary digital agency that combines creativity, technology, and strategy to build meaningful digital experiences.
+                Based in Bangladesh and serving clients globally, we specialize in delivering high-impact web development, digital marketing, UI/UX design, SEO, and branding solutions.
+                Our team is passionate about helping businesses grow in the digital era with innovative, scalable, and results-driven strategies.
+              </p>
+            </div>
+          </div>
 
-  {/* Mission */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
-    <div>
-      <h3 className="text-lg text-cyan-300 mb-2">Our Mission</h3>
-      <h2 className="text-3xl md:text-4xl font-bold orbitron text-white mb-4">Neonecy Mission</h2>
-      <p className="text-white/80 leading-relaxed">
-        Our mission is to empower brands through powerful digital transformation. We aim to simplify technology for our clients and create impactful digital solutions
-        that drive engagement, growth, and long-term success. Whether it’s crafting custom websites, running data-driven ad campaigns, or enhancing online presence,
-        we are committed to turning ideas into measurable results.
-      </p>
-    </div>
-    <div>
-      <img
-        src="/images/neonecy-mission.jpg"
-        alt="Neonecy Mission"
-        className="rounded-3xl shadow-xl glass-3d border border-white/20 w-full h-auto object-cover"
-      />
-    </div>
-  </div>
+          {/* Mission */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
+            <div>
+              <h3 className="text-lg text-cyan-300 mb-2">Our Mission</h3>
+              <h2 className="text-3xl md:text-4xl font-bold orbitron text-white mb-4">Neonecy Mission</h2>
+              <p className="text-white leading-relaxed">
+                Our mission is to empower brands through powerful digital transformation. We aim to simplify technology for our clients and create impactful digital solutions
+                that drive engagement, growth, and long-term success. Whether it's crafting custom websites, running data-driven ad campaigns, or enhancing online presence,
+                we are committed to turning ideas into measurable results.
+              </p>
+            </div>
+            <div>
+              <img
+                src="/images/neonecy-mission.jpg"
+                alt="Neonecy Mission"
+                className="rounded-3xl shadow-xl glass-3d border border-white/20 w-full h-auto object-cover"
+              />
+            </div>
+          </div>
 
-  {/* What Makes Us Different */}
-  <div className="text-center mb-12">
-    <h3 className="text-lg text-cyan-300 mb-2">Our Mission</h3>
-    <h2 className="text-3xl md:text-4xl font-bold orbitron text-white mb-4">What Makes NEONECY Different</h2>
-  </div>
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-    {[
-      { title: "Client-Centric Approach", desc: "We start every project by understanding your unique business needs. No one-size-fits-all solutions." },
-      { title: "Full Digital Services", desc: "From web development and UI/UX design to SEO, branding, and marketing — everything under one roof." },
-      { title: "Agile & Transparent Process", desc: "Our agile workflow keeps you in the loop at every step with clear progress tracking and quick iterations." },
-      { title: "Innovation with Purpose", desc: "We embrace new technologies and creative thinking, but always in service of meaningful results." }
-    ].map((item, i) => (
-      <div
-        key={i}
-        className="glass-3d p-6 rounded-2xl border border-white/20 shadow-xl backdrop-blur-md hover:neon-glow transform hover:scale-105 transition-all duration-300"
-      >
-        <h3 className="text-xl font-bold orbitron text-white mb-3">{item.title}</h3>
-        <p className="text-white/80 text-sm">{item.desc}</p>
-      </div>
-    ))}
-  </div>
-</div>
-
-
-      
-
-      
+          {/* What Makes Us Different */}
+          <div className="text-center mb-12">
+            <h3 className="text-lg text-cyan-300 mb-2">Our Mission</h3>
+            <h2 className="text-3xl md:text-4xl font-bold orbitron text-white mb-4">What Makes NEONECY Different</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: "Client-Centric Approach", desc: "We start every project by understanding your unique business needs. No one-size-fits-all solutions." },
+              { title: "Full Digital Services", desc: "From web development and UI/UX design to SEO, branding, and marketing — everything under one roof." },
+              { title: "Agile & Transparent Process", desc: "Our agile workflow keeps you in the loop at every step with clear progress tracking and quick iterations." },
+              { title: "Innovation with Purpose", desc: "We embrace new technologies and creative thinking, but always in service of meaningful results." }
+            ].map((item, i) => (
+              <div
+                key={i}
+                className="glass-3d p-6 rounded-2xl border border-white/20 shadow-xl backdrop-blur-md hover:neon-glow transform hover:scale-105 transition-all duration-300"
+              >
+                <h3 className="text-xl font-bold orbitron text-white mb-3">{item.title}</h3>
+                <p className="text-white text-sm">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
-      
+      </div>
+    </div>
   );
 }

@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Zap, Shield, Brain, Rocket, Eye, Star, ArrowRight } from 'lucide-react';
+import { Zap, Shield, Brain, Rocket, Eye, Star, ArrowRight, Play, Pause } from 'lucide-react';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -24,6 +24,7 @@ const products = [
     description: "Enterprise-grade cloud infrastructure with AI optimization and quantum-ready security.",
     features: ["99.99% Uptime", "Auto-scaling", "Global CDN", "24/7 Support"],
     image: "https://images.pexels.com/photos/2148222/pexels-photo-2148222.jpeg?auto=compress&cs=tinysrgb&w=800",
+    video: "/videos/cloud-demo.mp4", // Add video paths
     longDescription: "NeonCloud Pro delivers unparalleled performance with our next-generation cloud infrastructure. Built for enterprises that demand reliability, scalability, and cutting-edge security features."
   },
   {
@@ -36,6 +37,7 @@ const products = [
     description: "AI-powered cybersecurity platform with real-time threat detection and quantum encryption.",
     features: ["AI Threat Detection", "Zero-Day Protection", "Quantum Encryption", "Compliance Ready"],
     image: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&w=800",
+    video: "/videos/security-demo.mp4",
     longDescription: "SecureShield AI uses advanced machine learning algorithms to provide comprehensive protection against cyber threats, ensuring your data remains secure in an evolving digital landscape."
   },
   {
@@ -48,6 +50,7 @@ const products = [
     description: "Advanced AI analytics platform for predictive insights and intelligent business decisions.",
     features: ["Predictive Analytics", "Real-time Insights", "Custom Dashboards", "ML Models"],
     image: "https://images.pexels.com/photos/669610/pexels-photo-669610.jpeg?auto=compress&cs=tinysrgb&w=800",
+    video: "/videos/analytics-demo.mp4",
     longDescription: "IntelliAnalytics transforms your data into actionable insights using state-of-the-art machine learning and predictive analytics to drive informed business decisions."
   },
   {
@@ -60,6 +63,7 @@ const products = [
     description: "Lightning-fast deployment platform with automated CI/CD and container orchestration.",
     features: ["One-Click Deploy", "Auto CI/CD", "Container Support", "Blue-Green Deploy"],
     image: "https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&w=800",
+    video: "/videos/deploy-demo.mp4",
     longDescription: "RocketDeploy streamlines your deployment process with advanced automation, making it easier than ever to ship code fast and reliably across any environment."
   }
 ];
@@ -67,11 +71,32 @@ const products = [
 export default function ProductsPage() {
   const [selectedProduct, setSelectedProduct] = useState<typeof products[0] | null>(null);
   const [filter, setFilter] = useState('All');
+  const [playingVideo, setPlayingVideo] = useState<string | null>(null);
+  const videoRefs = useRef<{[key: number]: HTMLVideoElement | null}>({});
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
 
   const categories = ['All', ...Array.from(new Set(products.map(p => p.category)))];
   const filteredProducts = filter === 'All' ? products : products.filter(p => p.category === filter);
+
+  const toggleVideo = (productId: number) => {
+    const video = videoRefs.current[productId];
+    if (!video) return;
+
+    if (playingVideo === String(productId)) {
+      video.pause();
+      setPlayingVideo(null);
+    } else {
+      // Pause all other videos
+      Object.values(videoRefs.current).forEach(v => {
+        if (v) v.pause();
+      });
+      
+      video.currentTime = 0;
+      video.play();
+      setPlayingVideo(String(productId));
+    }
+  };
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -147,126 +172,173 @@ export default function ProductsPage() {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
           {filteredProducts.map((product, index) => (
             <Card
               key={product.id}
               ref={el => el && (cardsRef.current[index] = el)}
-              className="group glass-strong hover:glass hover:neon-glow transition-all duration-500 border-2 border-white/10 hover:border-cyan-400/30 rounded-3xl overflow-hidden cursor-pointer transform hover:scale-105"
-              onClick={() => setSelectedProduct(product)}
+              className="group glass-strong hover:glass hover:neon-glow transition-all duration-500 border-2 border-white/10 hover:border-cyan-400/30 rounded-3xl overflow-hidden cursor-pointer"
             >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <Badge className="absolute top-4 left-4 glass">
-                  {product.category}
-                </Badge>
-                <div className="absolute top-4 right-4 flex items-center space-x-1 glass rounded-full px-3 py-1">
-                  <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                  <span className="text-sm font-medium">{product.rating}</span>
-                </div>
-              </div>
-
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-2xl orbitron group-hover:neon-text transition-all duration-300">
-                    {product.name}
-                  </CardTitle>
-                  <product.icon className="w-8 h-8 text-cyan-400" />
-                </div>
-                <p className="text-muted-foreground">{product.description}</p>
-              </CardHeader>
-
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex flex-wrap gap-2">
-                    {product.features.map((feature, idx) => (
-                      <Badge key={idx} variant="secondary" className="glass text-xs">
-                        {feature}
-                      </Badge>
-                    ))}
+              <div className="flex flex-col lg:flex-row">
+                {/* Left side - Image/Video */}
+                <div className="relative w-full lg:w-1/2 h-96 lg:h-auto overflow-hidden">
+                  <div 
+                    className="relative h-full w-full cursor-pointer"
+                    onClick={() => toggleVideo(product.id)}
+                  >
+                    {/* Video element */}
+                    <video
+                      ref={el => videoRefs.current[product.id] = el}
+                      src={product.video}
+                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                        playingVideo === String(product.id) ? 'opacity-100' : 'opacity-0'
+                      }`}
+                      loop
+                      muted
+                      playsInline
+                    />
+                    
+                    {/* Fallback image */}
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                        playingVideo === String(product.id) ? 'opacity-0' : 'opacity-100'
+                      }`}
+                    />
+                    
+                    {/* Play/Pause button */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 transition-opacity duration-300 hover:bg-black/40">
+                      {playingVideo === String(product.id) ? (
+                        <Pause className="w-16 h-16 text-white/90 hover:text-white transition-colors" />
+                      ) : (
+                        <Play className="w-16 h-16 text-white/90 hover:text-white transition-colors" />
+                      )}
+                    </div>
                   </div>
+                  
+                  <Badge className="absolute top-4 left-4 glass">
+                    {product.category}
+                  </Badge>
+                  <div className="absolute top-4 right-4 flex items-center space-x-1 glass rounded-full px-3 py-1">
+                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <span className="text-sm font-medium">{product.rating}</span>
+                  </div>
+                </div>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                {/* Right side - Product info */}
+                <div className="w-full lg:w-1/2 p-6 flex flex-col">
+                  <CardHeader className="p-0 mb-4">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-2xl orbitron group-hover:neon-text transition-all duration-300">
+                        {product.name}
+                      </CardTitle>
+                      <product.icon className="w-8 h-8 text-cyan-400" />
+                    </div>
+                    <p className="text-muted-foreground">{product.description}</p>
+                  </CardHeader>
+
+                  <CardContent className="p-0 flex-grow">
+                    <div className="space-y-4">
+                      <div className="flex flex-wrap gap-2">
+                        {product.features.map((feature, idx) => (
+                          <Badge key={idx} variant="secondary" className="glass text-xs">
+                            {feature}
+                          </Badge>
+                        ))}
+                      </div>
+
+                      <div className="mt-auto pt-6">
+                        <Button 
+                          onClick={() => setSelectedProduct(product)}
+                          size="sm"
+                          className="group/btn glass hover:neon-glow transition-all duration-300 rounded-xl w-full"
+                        >
+                          <Eye className="w-4 h-4 mr-2" />
+                          View Details
+                          <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+
+                  <div className="mt-6 pt-4 border-t border-white/10">
                     <span className="text-2xl font-bold orbitron neon-text">
                       {product.price}
                     </span>
-                    <Button 
-                      size="sm"
-                      className="group/btn glass hover:neon-glow transition-all duration-300 rounded-xl"
-                    >
-                      <Eye className="w-4 h-4 mr-2" />
-                      View Details
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                    </Button>
                   </div>
                 </div>
-              </CardContent>
+              </div>
             </Card>
           ))}
         </div>
 
         {/* Product Detail Modal */}
         <Dialog open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
-          <DialogContent className="glass-strong border-2 border-cyan-400/30 rounded-3xl max-w-2xl">
+          <DialogContent className="glass-strong border-2 border-cyan-400/30 rounded-3xl max-w-4xl">
             {selectedProduct && (
-              <>
-                <DialogHeader>
-                  <div className="flex items-center space-x-4 mb-4">
-                    <selectedProduct.icon className="w-12 h-12 text-cyan-400" />
-                    <div>
-                      <DialogTitle className="text-3xl orbitron neon-text">
-                        {selectedProduct.name}
-                      </DialogTitle>
-                      <Badge className="glass mt-2">{selectedProduct.category}</Badge>
-                    </div>
-                  </div>
-                  <DialogDescription className="text-lg text-muted-foreground">
-                    {selectedProduct.longDescription}
-                  </DialogDescription>
-                </DialogHeader>
-
-                <div className="space-y-6">
-                  <img
-                    src={selectedProduct.image}
-                    alt={selectedProduct.name}
-                    className="w-full h-48 object-cover rounded-2xl"
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Left side - Video */}
+                <div className="relative h-64 md:h-full rounded-2xl overflow-hidden">
+                  <video
+                    src={selectedProduct.video}
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    loop
+                    muted
+                    controls
                   />
-
-                  <div>
-                    <h4 className="text-xl font-bold orbitron mb-4">Key Features</h4>
-                    <div className="grid grid-cols-2 gap-4">
-                      {selectedProduct.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center space-x-2">
-                          <div className="w-2 h-2 bg-cyan-400 rounded-full" />
-                          <span className="text-sm">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-6 border-t border-white/10">
-                    <div className="flex items-center space-x-4">
-                      <span className="text-3xl font-bold orbitron neon-text">
-                        {selectedProduct.price}
-                      </span>
-                      <div className="flex items-center space-x-1">
-                        <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                        <span className="font-medium">{selectedProduct.rating}</span>
+                </div>
+                
+                {/* Right side - Details */}
+                <div>
+                  <DialogHeader>
+                    <div className="flex items-center space-x-4 mb-4">
+                      <selectedProduct.icon className="w-12 h-12 text-cyan-400" />
+                      <div>
+                        <DialogTitle className="text-3xl orbitron neon-text">
+                          {selectedProduct.name}
+                        </DialogTitle>
+                        <Badge className="glass mt-2">{selectedProduct.category}</Badge>
                       </div>
                     </div>
-                    <Button 
-                      className="glass-strong hover:neon-glow transition-all duration-300 rounded-xl px-8 py-3 orbitron font-medium"
-                    >
-                      Get Started
-                    </Button>
+                    <DialogDescription className="text-lg text-muted-foreground">
+                      {selectedProduct.longDescription}
+                    </DialogDescription>
+                  </DialogHeader>
+
+                  <div className="space-y-6 mt-6">
+                    <div>
+                      <h4 className="text-xl font-bold orbitron mb-4">Key Features</h4>
+                      <div className="grid grid-cols-1 gap-2">
+                        {selectedProduct.features.map((feature, idx) => (
+                          <div key={idx} className="flex items-center space-x-2">
+                            <div className="w-2 h-2 bg-cyan-400 rounded-full" />
+                            <span className="text-sm">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-6 border-t border-white/10">
+                      <div className="flex items-center space-x-4">
+                        <span className="text-3xl font-bold orbitron neon-text">
+                          {selectedProduct.price}
+                        </span>
+                        <div className="flex items-center space-x-1">
+                          <Star className="w-5 h-5 text-yellow-400 fill-current" />
+                          <span className="font-medium">{selectedProduct.rating}</span>
+                        </div>
+                      </div>
+                      <Button 
+                        className="glass-strong hover:neon-glow transition-all duration-300 rounded-xl px-8 py-3 orbitron font-medium"
+                      >
+                        Get Started
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </DialogContent>
         </Dialog>

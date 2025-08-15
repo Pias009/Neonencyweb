@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock, Users, ArrowRight, Sparkles, Newspaper } from "lucide-react";
+import { MapPin, Clock, Users, ArrowRight, Sparkles, Newspaper } from "lucide-react"
 
 // Register ScrollTrigger plugin only on client side
 if (typeof window !== "undefined") {
@@ -17,6 +17,12 @@ const expertise = [
   {
     title: "Web 2.0 Development",
     description: "Building dynamic, responsive, and interactive websites using modern web technologies.",
+    icon: "🪙",
+  },
+  {
+    title: "Blockchain devlopment,",
+    description: "Developing secure and scalable blockchain solutions, smart contracts, and decentralized applications.",
+
     icon: "🌐",
   },
   {
@@ -191,7 +197,7 @@ export default function CombinedPage() {
       <div ref={newsRef} className="text-center mb-20">
         <Newspaper className="w-16 h-16 text-cyan-400 mx-auto mb-4" />
         <h1 className="text-5xl md:text-6xl font-bold orbitron text-yellow-400 drop-shadow-lg mb-4">
-          SaaS Product News
+          SaaS Product Data
         </h1>
         <p className="text-xl text-cyan-300 max-w-3xl mx-auto">
           Stay updated with the latest features, updates, and insights from our product team.
