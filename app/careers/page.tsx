@@ -6,7 +6,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Clock, Users, ArrowRight, Sparkles, Newspaper } from "lucide-react"
+import { MapPin, Clock, Users, ArrowRight, Sparkles, Newspaper } from "lucide-react";
+import { TypeAnimation } from 'react-type-animation';
+
 
 // Register ScrollTrigger plugin only on client side
 if (typeof window !== "undefined") {
@@ -95,6 +97,27 @@ const benefits = [
   "Flexible hours",
   "Team retreats",
 ];
+
+const productDetails = {
+  appName: "NeoStack",
+  title: "Web3 Development Framework",
+  description: "A comprehensive development framework for building secure, scalable decentralized applications.",
+  roadmap: [
+    "Smart Contract Development & Integration",
+    "Blockchain Network Setup",
+    "Web3 Frontend Implementation",
+    "Security Auditing & Testing",
+    "Mainnet Deployment"
+  ],
+  technologies: [
+    { name: "Solidity", icon: "⚡" },
+    { name: "Hardhat", icon: "🔨" },
+    { name: "IPFS", icon: "📦" },
+    { name: "Ethers.js", icon: "🌐" },
+    { name: "Web3.js", icon: "🔗" },
+    { name: "OpenZeppelin", icon: "🛡️" }
+  ]
+};
 
 export default function CombinedPage() {
   const newsRef = useRef<HTMLDivElement>(null);
@@ -193,15 +216,68 @@ export default function CombinedPage() {
 
   return (
     <div className="px-4 pt-32 pb-16 max-w-7xl mx-auto">
-      {/* SaaS Product News */}
-      <div ref={newsRef} className="text-center mb-20">
-        <Newspaper className="w-16 h-16 text-cyan-400 mx-auto mb-4" />
-        <h1 className="text-5xl md:text-6xl font-bold orbitron text-yellow-400 drop-shadow-lg mb-4">
-          SaaS Product Data
-        </h1>
-        <p className="text-xl text-cyan-300 max-w-3xl mx-auto">
-          Stay updated with the latest features, updates, and insights from our product team.
-        </p>
+      
+      {/* Product Section */}
+      <div className="mb-32">
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 border border-gray-700">
+          <div className="text-center mb-8">
+            <TypeAnimation
+              sequence={[
+                productDetails.appName,
+                1000,
+                `${productDetails.appName} - ${productDetails.title}`,
+                2000,
+              ]}
+              wrapper="h1"
+              speed={50}
+              className="text-4xl md:text-5xl font-bold orbitron text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"
+              repeat={1}
+            />
+            <p className="text-gray-300 mt-4 max-w-3xl mx-auto">
+              {productDetails.description}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mt-12">
+            {/* Roadmap */}
+            <div>
+              <h3 className="text-2xl font-bold mb-4 text-cyan-400">Development Roadmap</h3>
+              <div className="space-y-4">
+                {productDetails.roadmap.map((step, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center border border-cyan-500/30">
+                      {index + 1}
+                    </div>
+                    <p className="text-gray-300">{step}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Technologies */}
+            <div>
+              <h3 className="text-2xl font-bold mb-4 text-cyan-400">Tech Stack</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {productDetails.technologies.map((tech, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-xl border border-gray-700 hover:border-cyan-500/30 transition-all duration-300"
+                  >
+                    <span className="text-2xl">{tech.icon}</span>
+                    <span className="text-gray-300">{tech.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Button className="bg-cyan-600 hover:bg-cyan-500 hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 rounded-xl px-8 py-3">
+              View Details
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+        </div>
       </div>
 
       {/* Expertise / Skills */}
@@ -217,6 +293,69 @@ export default function CombinedPage() {
             <p className="text-gray-300">{item.description}</p>
           </div>
         ))}
+      </div>
+
+      {/* Product Details - New Section */}
+      <div className="mb-32">
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 border border-gray-700">
+          <div className="text-center mb-8">
+            <TypeAnimation
+              sequence={[
+                productDetails.appName,
+                1000,
+                `${productDetails.appName} - ${productDetails.title}`,
+                2000,
+              ]}
+              wrapper="h1"
+              speed={50}
+              className="text-4xl md:text-5xl font-bold orbitron text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"
+              repeat={1}
+            />
+            <p className="text-gray-300 mt-4 max-w-3xl mx-auto">
+              {productDetails.description}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mt-12">
+            {/* Roadmap */}
+            <div>
+              <h3 className="text-2xl font-bold mb-4 text-cyan-400">Development Roadmap</h3>
+              <div className="space-y-4">
+                {productDetails.roadmap.map((step, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center border border-cyan-500/30">
+                      {index + 1}
+                    </div>
+                    <p className="text-gray-300">{step}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Technologies */}
+            <div>
+              <h3 className="text-2xl font-bold mb-4 text-cyan-400">Tech Stack</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {productDetails.technologies.map((tech, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-xl border border-gray-700 hover:border-cyan-500/30 transition-all duration-300"
+                  >
+                    <span className="text-2xl">{tech.icon}</span>
+                    <span className="text-gray-300">{tech.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Button className="bg-cyan-600 hover:bg-cyan-500 hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 rounded-xl px-8 py-3">
+              View Details
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+        </div>
       </div>
 
       {/* Careers Header */}

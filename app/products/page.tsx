@@ -17,15 +17,29 @@ const products = [
   {
     id: 1,
     name: "NeonCloud Pro",
+    shortTitle: "Next-Gen Cloud Infrastructure",
     category: "Infrastructure",
-    price: "$99/month",
-    rating: 4.9,
     icon: Zap,
     description: "Enterprise-grade cloud infrastructure with AI optimization and quantum-ready security.",
     features: ["99.99% Uptime", "Auto-scaling", "Global CDN", "24/7 Support"],
-    image: "https://images.pexels.com/photos/2148222/pexels-photo-2148222.jpeg?auto=compress&cs=tinysrgb&w=800",
-    video: "/videos/cloud-demo.mp4", // Add video paths
-    longDescription: "NeonCloud Pro delivers unparalleled performance with our next-generation cloud infrastructure. Built for enterprises that demand reliability, scalability, and cutting-edge security features."
+    image: "https://images.pexels.com/photos/2148222/pexels-photo-2148222.jpeg",
+    video: "/videos/cloud-demo.mp4",
+    longDescription: "NeonCloud Pro delivers unparalleled performance with our next-generation cloud infrastructure. Built for enterprises that demand reliability, scalability, and cutting-edge security features.",
+    techStack: [
+      { name: "Kubernetes", icon: "☸️" },
+      { name: "Docker", icon: "🐳" },
+      { name: "Terraform", icon: "🏗️" },
+      { name: "Go", icon: "🔵" },
+      { name: "gRPC", icon: "🌐" },
+      { name: "Redis", icon: "🔄" }
+    ],
+    purpose: [
+      "Scalable Microservices Deployment",
+      "Container Orchestration",
+      "Infrastructure as Code",
+      "High-Performance Computing",
+      "Real-time Data Processing"
+    ]
   },
   {
     id: 2,
@@ -40,32 +54,7 @@ const products = [
     video: "/videos/security-demo.mp4",
     longDescription: "SecureShield AI uses advanced machine learning algorithms to provide comprehensive protection against cyber threats, ensuring your data remains secure in an evolving digital landscape."
   },
-  {
-    id: 3,
-    name: "IntelliAnalytics",
-    category: "Analytics",
-    price: "$199/month",
-    rating: 4.9,
-    icon: Brain,
-    description: "Advanced AI analytics platform for predictive insights and intelligent business decisions.",
-    features: ["Predictive Analytics", "Real-time Insights", "Custom Dashboards", "ML Models"],
-    image: "https://images.pexels.com/photos/669610/pexels-photo-669610.jpeg?auto=compress&cs=tinysrgb&w=800",
-    video: "/videos/analytics-demo.mp4",
-    longDescription: "IntelliAnalytics transforms your data into actionable insights using state-of-the-art machine learning and predictive analytics to drive informed business decisions."
-  },
-  {
-    id: 4,
-    name: "RocketDeploy",
-    category: "DevOps",
-    price: "$79/month",
-    rating: 4.7,
-    icon: Rocket,
-    description: "Lightning-fast deployment platform with automated CI/CD and container orchestration.",
-    features: ["One-Click Deploy", "Auto CI/CD", "Container Support", "Blue-Green Deploy"],
-    image: "https://images.pexels.com/photos/2004161/pexels-photo-2004161.jpeg?auto=compress&cs=tinysrgb&w=800",
-    video: "/videos/deploy-demo.mp4",
-    longDescription: "RocketDeploy streamlines your deployment process with advanced automation, making it easier than ever to ship code fast and reliably across any environment."
-  }
+
 ];
 
 export default function ProductsPage() {
@@ -274,67 +263,113 @@ export default function ProductsPage() {
         </div>
 
         {/* Product Detail Modal */}
-        <Dialog open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
-          <DialogContent className="glass-strong border-2 border-cyan-400/30 rounded-3xl max-w-4xl">
+        <Dialog 
+          open={!!selectedProduct} 
+          onOpenChange={() => setSelectedProduct(null)}
+          className="w-full"
+        >
+          <DialogContent className="glass-strong border-2 border-cyan-400/30 rounded-3xl max-w-[95vw] w-full h-[90vh]">
             {selectedProduct && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Left side - Video */}
-                <div className="relative h-64 md:h-full rounded-2xl overflow-hidden">
-                  <video
-                    src={selectedProduct.video}
-                    className="w-full h-full object-cover"
-                    autoPlay
-                    loop
-                    muted
-                    controls
-                  />
-                </div>
-                
-                {/* Right side - Details */}
-                <div>
-                  <DialogHeader>
-                    <div className="flex items-center space-x-4 mb-4">
+              <div className="flex flex-col md:flex-row h-full">
+                {/* Left side - Content */}
+                <div className="w-full md:w-2/3 p-6 overflow-y-auto">
+                  <DialogHeader className="mb-8">
+                    <div className="flex items-center space-x-4">
                       <selectedProduct.icon className="w-12 h-12 text-cyan-400" />
                       <div>
                         <DialogTitle className="text-3xl orbitron neon-text">
                           {selectedProduct.name}
                         </DialogTitle>
-                        <Badge className="glass mt-2">{selectedProduct.category}</Badge>
+                        <p className="text-lg text-cyan-400 mt-1">
+                          {selectedProduct.shortTitle}
+                        </p>
+                        <Badge className="glass mt-2">
+                          {selectedProduct.category}
+                        </Badge>
                       </div>
                     </div>
-                    <DialogDescription className="text-lg text-muted-foreground">
+                    <DialogDescription className="text-lg text-muted-foreground mt-4">
                       {selectedProduct.longDescription}
                     </DialogDescription>
                   </DialogHeader>
 
-                  <div className="space-y-6 mt-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Tech Stack Section */}
                     <div>
-                      <h4 className="text-xl font-bold orbitron mb-4">Key Features</h4>
-                      <div className="grid grid-cols-1 gap-2">
-                        {selectedProduct.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-cyan-400 rounded-full" />
-                            <span className="text-sm">{feature}</span>
+                      <h4 className="text-xl font-bold orbitron mb-4">Tech Stack</h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        {selectedProduct.techStack?.map((tech, idx) => (
+                          <div 
+                            key={idx} 
+                            className="flex items-center space-x-2 p-3 glass rounded-lg hover:neon-glow transition-all duration-300"
+                          >
+                            <span className="text-2xl">{tech.icon}</span>
+                            <span className="text-sm">{tech.name}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between pt-6 border-t border-white/10">
-                      <div className="flex items-center space-x-4">
-                        <span className="text-3xl font-bold orbitron neon-text">
-                          {selectedProduct.price}
-                        </span>
-                        <div className="flex items-center space-x-1">
-                          <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                          <span className="font-medium">{selectedProduct.rating}</span>
-                        </div>
+                    {/* Purpose Section */}
+                    <div>
+                      <h4 className="text-xl font-bold orbitron mb-4">Key Purpose</h4>
+                      <div className="space-y-3">
+                        {selectedProduct.purpose?.map((item, idx) => (
+                          <div 
+                            key={idx} 
+                            className="flex items-center space-x-3 p-2 glass rounded-lg"
+                          >
+                            <div className="w-2 h-2 bg-cyan-400 rounded-full" />
+                            <span className="text-sm text-gray-300">{item}</span>
+                          </div>
+                        ))}
                       </div>
-                      <Button 
-                        className="glass-strong hover:neon-glow transition-all duration-300 rounded-xl px-8 py-3 orbitron font-medium"
-                      >
-                        Get Started
-                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Features Section */}
+                  <div className="mt-8">
+                    <h4 className="text-xl font-bold orbitron mb-4">Features</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedProduct.features.map((feature, idx) => (
+                        <Badge 
+                          key={idx} 
+                          variant="secondary" 
+                          className="glass text-xs px-4 py-2"
+                        >
+                          {feature}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right side - Video */}
+                <div className="w-full md:w-1/3 h-full relative border-l border-white/10">
+                  <div className="sticky top-0 h-full">
+                    <div 
+                      className="relative h-full cursor-pointer group"
+                      onClick={() => {
+                        // Add fullscreen handling
+                        const videoElement = document.getElementById(`product-video-${selectedProduct.id}`);
+                        if (videoElement instanceof HTMLVideoElement) {
+                          if (videoElement.requestFullscreen) {
+                            videoElement.requestFullscreen();
+                          }
+                        }
+                      }}
+                    >
+                      <video
+                        id={`product-video-${selectedProduct.id}`}
+                        src={selectedProduct.video}
+                        className="w-full h-full object-cover"
+                        loop
+                        muted
+                        autoPlay
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <Play className="w-16 h-16 text-white" />
+                      </div>
                     </div>
                   </div>
                 </div>
