@@ -4,16 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTheme } from "next-themes";
 import { Sun, Moon, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -22,7 +16,6 @@ const navItems = [
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
   { href: "/News", label: "News" },
- 
 ];
 
 export function Navigation() {
@@ -32,50 +25,43 @@ export function Navigation() {
   const pathname = usePathname();
   const navRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     setMounted(true);
 
-    if (navRef.current && typeof window !== "undefined") {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
       const nav = navRef.current;
+      const navLinks = nav?.querySelector(".nav-links");
 
-      ScrollTrigger.create({
-        start: "top -80",
-        onUpdate: (self) => {
-          if (self.direction === 1) {
-            // Scrolling down
-            gsap.to(nav, {
-              y: -100,
-              duration: 0.3,
-              ease: "power2.out",
-            });
-          } else {
-            // Scrolling up
-            gsap.to(nav, {
-              y: 0,
-              duration: 0.3,
-              ease: "power2.out",
-            });
-          }
-        },
-      });
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        // Scrolling down
+        gsap.to(nav, { 
+          y: "-60%", 
+          duration: 0.5, 
+          ease: "power2.out" 
+        });
+        gsap.to(navLinks, { opacity: 0, duration: 0.3 });
+        gsap.to(logoRef.current, { y: 15, scale: 0.9, duration: 0.5, ease: "power2.out" });
 
-      ScrollTrigger.create({
-        start: "top -200",
-        onToggle: (self) => {
-          if (logoRef.current) {
-            gsap.to(logoRef.current, {
-              scale: self.isActive ? 0.6 : 1,
-              duration: 0.5,
-              ease: "power2.out",
-            });
-          }
-        },
-      });
-    }
+      } else {
+        // Scrolling up
+        gsap.to(nav, { 
+          y: "0%", 
+          duration: 0.5, 
+          ease: "power2.out" 
+        });
+        gsap.to(navLinks, { opacity: 1, duration: 0.3 });
+        gsap.to(logoRef.current, { y: 0, scale: 1, duration: 0.5, ease: "power2.out" });
+      }
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -86,7 +72,7 @@ export function Navigation() {
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 right-0 z-50 glass-strong rounded-b-3xl mx-4 mt-2"
+      className="fixed top-0 left-0 right-0 z-50 glass-strong rounded-b-3xl mx-4 mt-2 transition-transform duration-300"
     >
       <div className="flex items-center justify-between px-4 py-3 md:py-4">
         <Link href="/" className="flex items-center space-x-2 group">
@@ -108,7 +94,7 @@ export function Navigation() {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center space-x-8 nav-links">
           {!isAdmin &&
             navItems.map((item) => (
               <Link

@@ -1,62 +1,19 @@
-"use client";
-
-import { useState } from "react";
-import { Navigation } from "@/components/navigation";
-import { Button } from "@/components/ui/button";
-import { Key, ShoppingCart } from "lucide-react";
-
-export default function Page() {
-  const [apiKey, setApiKey] = useState("");
-  const [purchased, setPurchased] = useState(false);
-
-  const handlePurchase = () => {
-    // Simulate payment success
-    setPurchased(true);
-  };
-
-  const handleGenerateKey = () => {
-    const newKey = "API-" + Math.random().toString(36).substring(2, 15);
-    setApiKey(newKey);
-  };
-
+export default function AdminPage() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navigation />
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-10">
-        <div className="max-w-2xl w-full bg-white rounded-2xl shadow-lg p-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            Get Your API Key
-          </h1>
-          <p className="text-gray-600 mb-8">
-            Purchase an API key to unlock full access to our powerful data
-            services. Once purchased, you can generate and manage your API key
-            instantly.
-          </p>
-
-          {!purchased ? (
-            <Button
-              onClick={handlePurchase}
-              className="flex items-center gap-2 px-6 py-3 text-lg"
-            >
-              <ShoppingCart size={20} /> Buy Now
-            </Button>
-          ) : (
-            <>
-              <Button
-                onClick={handleGenerateKey}
-                className="flex items-center gap-2 px-6 py-3 text-lg mb-4"
-              >
-                <Key size={20} /> Generate API Key
-              </Button>
-              {apiKey && (
-                <div className="bg-gray-100 p-4 rounded-lg font-mono text-sm border">
-                  {apiKey}
-                </div>
-              )}
-            </>
-          )}
-        </div>
-      </main>
+    <div className="min-h-screen flex items-center justify-center bg-stone-100" style={{
+      backgroundImage: `
+        linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+      `
+    }}>
+      <div className="text-center">
+        <h1 className="text-6xl md:text-8xl font-black orbitron neon-text leading-tight">
+          Coming Soon
+        </h1>
+        <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mt-4">
+          We are working hard to bring you something amazing. Stay tuned!
+        </p>
+      </div>
     </div>
   );
 }

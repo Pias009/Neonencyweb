@@ -156,13 +156,7 @@ export function HeroSection() {
 
         {/* CTA Button */}
         <div ref={buttonRef}>
-          <Button
-            size="lg"
-            className="group glass-strong hover:neon-glow transition-all duration-500 px-8 py-4 text-lg orbitron font-medium rounded-2xl border-2 border-cyan-400/30 hover:border-cyan-400/60"
-          >
-            <span className="neon-text">Explore the Future</span>
-            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300 text-cyan-400" />
-          </Button>
+          
         </div>
       </div>
 
