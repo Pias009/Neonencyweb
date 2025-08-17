@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "name": "TK Token",
+    "description": "Purchase TK Token to empower Bangladesh's digital economy.",
+    "image": "https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "category": "Financial",
+    "features": ["Buy with BNB Smart Chain", "Secure Transactions", "Empower Digital Economy"],
+    "longDescription": "Our product is a cutting-edge Web3 platform designed to revolutionize the digital economy in Bangladesh. Built on the principles of decentralization and transparency, TK Token provides a secure and efficient way to conduct transactions. We leverage the power of blockchain technology to ensure that every transaction is immutable and tamper-proof.",
+    "techStack": [
+      { "name": "BNB Smart Chain", "icon": "💰", "description": "The backbone of our platform, providing a secure and scalable infrastructure for transactions." },
+      { "name": "Solidity", "icon": "📜", "description": "The smart contracts that power our token and ensure the integrity of the platform." },
+      { "name": "Next.js", "icon": "⚛️", "description": "The frontend of our application is built with Next.js for a fast and responsive user experience." },
+      { "name": "ethers.js", "icon": "🔗", "description": "We use ethers.js to interact with the BNB Smart Chain and manage wallet connections." }
+    ]
+  }
+]

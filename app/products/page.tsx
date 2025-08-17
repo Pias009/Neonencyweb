@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
@@ -13,34 +13,36 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const products = [
-  {
-    id: 1,
-    name: "TK Token",
-    shortTitle: "Empowering Bangladesh's Digital Economy",
-    category: "Financial",
-    icon: Zap,
-    description: "Purchase TK Token to empower Bangladesh's digital economy.",
-    features: ["Buy with BNB Smart Chain", "Secure Transactions", "Empower Digital Economy"],
-    image: "https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    longDescription: "Our product is a cutting-edge Web3 platform designed to revolutionize the digital economy in Bangladesh. Built on the principles of decentralization and transparency, TK Token provides a secure and efficient way to conduct transactions. We leverage the power of blockchain technology to ensure that every transaction is immutable and tamper-proof.",
-    techStack: [
-      { name: "BNB Smart Chain", icon: "💰", description: "The backbone of our platform, providing a secure and scalable infrastructure for transactions." },
-      { name: "Solidity", icon: "📜", description: "The smart contracts that power our token and ensure the integrity of the platform." },
-      { name: "Next.js", icon: "⚛️", description: "The frontend of our application is built with Next.js for a fast and responsive user experience." },
-      { name: "ethers.js", icon: "🔗", description: "We use ethers.js to interact with the BNB Smart Chain and manage wallet connections." }
-    ],
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" // Placeholder video
-  }
-];
+interface Product {
+  id: string;
+  name: string;
+  shortTitle: string;
+  category: string;
+  description: string;
+  features: string[];
+  image: string;
+  longDescription: string;
+  techStack: { name: string; icon: string; description: string }[];
+  videoUrl: string;
+}
 
 export default function ProductsPage() {
-  const [selectedProduct, setSelectedProduct] = useState<(typeof products[0]) | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    const fetchProducts = async () => {
+      const response = await fetch('/api/products');
+      const data = await response.json();
+      setProducts(data);
+    };
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || products.length === 0) return;
 
     const header = headerRef.current;
     const cards = cardsRef.current;
@@ -67,7 +69,7 @@ export default function ProductsPage() {
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, []);
+  }, [products]);
 
   return (
     <div className="pt-24 pb-16 px-4">
@@ -106,7 +108,7 @@ export default function ProductsPage() {
                       <CardTitle className="text-2xl orbitron group-hover:neon-text transition-all duration-300 text-green-500">
                         {product.name}
                       </CardTitle>
-                      <product.icon className="w-8 h-8 text-cyan-400" />
+                      <Zap className="w-8 h-8 text-cyan-400" />
                     </div>
                     <p className="text-muted-foreground">{product.description}</p>
                   </CardHeader>

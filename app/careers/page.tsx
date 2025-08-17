@@ -216,7 +216,6 @@ export default function CombinedPage() {
 
   return (
     <div className="px-4 pt-32 pb-16 max-w-7xl mx-auto">
-      
       {/* Product Section */}
       <div className="mb-32">
         <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 border border-gray-700">
@@ -271,13 +270,71 @@ export default function CombinedPage() {
             </div>
           </div>
 
-          <div className="mt-12 text-center">
-            <Button className="bg-cyan-600 hover:bg-cyan-500 hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 rounded-xl px-8 py-3">
-              View Details
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </div>
+        
         </div>
+      </div>
+
+      {/* Job Listings */}
+      <div className="space-y-6 mb-32">
+        <h2 className="text-4xl font-bold orbitron text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-8 text-center">
+          Open Positions
+        </h2>
+        {jobs.map((job, index) => (
+          <Card
+            key={job.id}
+            ref={el => jobsRef.current[index] = el}
+            className="group bg-gradient-to-br from-gray-900 to-gray-800 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-500 border border-gray-700 hover:border-cyan-400/30 rounded-3xl overflow-hidden"
+          >
+            <CardHeader>
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-4 mb-2">
+                    <CardTitle className="text-2xl orbitron group-hover:text-cyan-400 transition-all duration-300">
+                      {job.title}
+                    </CardTitle>
+                    <Badge className="bg-gray-700">{job.level}</Badge>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-4">
+                    <div className="flex items-center gap-1">
+                      <Users className="w-4 h-4" />
+                      <span>{job.department}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <MapPin className="w-4 h-4" />
+                      <span>{job.location}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-4 h-4" />
+                      <span>{job.type}</span>
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground mb-4 leading-relaxed">
+                    {job.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {job.skills.map((skill, idx) => (
+                      <Badge key={idx} variant="secondary" className="bg-gray-700 text-xs">
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+                <div className="md:ml-8 flex flex-col items-end gap-4">
+                  <a 
+                    href={`mailto:neonency.agency@gmail.com?subject=Application for ${job.title}&body=I am interested in the ${job.title} position at Neonency.%0D%0A%0D%0APosition Details:%0D%0A- Role: ${job.title}%0D%0A- Department: ${job.department}%0D%0A- Level: ${job.level}%0D%0A%0D%0APlease find my application attached.`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button className="group/btn bg-cyan-600 hover:bg-cyan-500 hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 rounded-xl px-6 py-3 orbitron font-medium">
+                      Apply Now
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                    </Button>
+                  </a>
+                </div>
+              </div>
+            </CardHeader>
+          </Card>
+        ))}
       </div>
 
       {/* Expertise / Skills */}
@@ -400,63 +457,6 @@ export default function CombinedPage() {
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Job Listings */}
-      <div className="space-y-6">
-        <h2 className="text-4xl font-bold orbitron text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-8 text-center">
-          Open Positions
-        </h2>
-        {jobs.map((job, index) => (
-          <Card
-            key={job.id}
-            ref={el => jobsRef.current[index] = el}
-            className="group bg-gradient-to-br from-gray-900 to-gray-800 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-500 border border-gray-700 hover:border-cyan-400/30 rounded-3xl overflow-hidden"
-          >
-            <CardHeader>
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-4 mb-2">
-                    <CardTitle className="text-2xl orbitron group-hover:text-cyan-400 transition-all duration-300">
-                      {job.title}
-                    </CardTitle>
-                    <Badge className="bg-gray-700">{job.level}</Badge>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-4">
-                    <div className="flex items-center gap-1">
-                      <Users className="w-4 h-4" />
-                      <span>{job.department}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-4 h-4" />
-                      <span>{job.location}</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" />
-                      <span>{job.type}</span>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {job.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {job.skills.map((skill, idx) => (
-                      <Badge key={idx} variant="secondary" className="bg-gray-700 text-xs">
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                <div className="md:ml-8 flex flex-col items-end gap-4">
-                  <Button className="group/btn bg-cyan-600 hover:bg-cyan-500 hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 rounded-xl px-6 py-3 orbitron font-medium">
-                    Apply Now
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                  </Button>
-                </div>
-              </div>
-            </CardHeader>
-          </Card>
-        ))}
       </div>
     </div>
   );

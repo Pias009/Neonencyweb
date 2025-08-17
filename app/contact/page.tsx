@@ -19,21 +19,11 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    value: "hello@neonency.com",
+    value: "neonecy.agency@gmail.com",
     description: "Drop us a line anytime"
   },
-  {
-    icon: Phone,
-    title: "Phone",
-    value: "+1 (555) 123-4567",
-    description: "Mon-Fri from 9am to 6pm"
-  },
-  {
-    icon: MapPin,
-    title: "Office",
-    value: "San Francisco, CA",
-    description: "123 Innovation Street"
-  }
+  
+ 
 ];
 
 export default function ContactPage() {
@@ -140,7 +130,7 @@ export default function ContactPage() {
             Contact Us
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Ready to transform your business? Let's start the conversation.
+            Ready to transform your business? Lets start the conversation.
           </p>
         </div>
 
@@ -268,19 +258,7 @@ export default function ContactPage() {
               </Card>
             ))}
 
-            {/* Response Time */}
-            <Card className="glass-strong rounded-3xl border-2 border-white/10 p-6">
-              <CardContent className="p-0">
-                <div className="flex items-center space-x-4 mb-4">
-                  <Clock className="w-8 h-8 text-purple-400" />
-                  <h3 className="text-2xl font-bold orbitron">Response Time</h3>
-                </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  We typically respond to all inquiries within 24 hours during business days. 
-                  For urgent matters, please call us directly.
-                </p>
-              </CardContent>
-            </Card>
+           
 
             {/* FAQ Link */}
             <Card className="glass-strong rounded-3xl border-2 border-white/10 p-6">

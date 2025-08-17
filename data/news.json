@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "title": "News 1",
+    "content": "This is news 1",
+    "image": "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": "2",
+    "title": "News 2",
+    "content": "This is news 2",
+    "image": "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  }
+]
