@@ -1,294 +1,282 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
+import { useState, useEffect, FormEvent } from 'react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
 
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  videoUrl: string;
-}
-
-interface News {
-  id: string;
+// Define the shape of a news article
+interface NewsArticle {
+  _id: string;
   title: string;
   content: string;
-  image: string;
+  imagePath: string;
+  videoUrl?: string;
+  tags: string[];
+  isFeatured: boolean;
+  createdAt: string;
 }
 
 export default function AdminPage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [news, setNews] = useState<News[]>([]);
+  const [news, setNews] = useState<NewsArticle[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingNews, setEditingNews] = useState<NewsArticle | null>(null);
+  const { toast } = useToast();
 
-  const [newProductName, setNewProductName] = useState('');
-  const [newProductDescription, setNewProductDescription] = useState('');
-  const [newProductImage, setNewProductImage] = useState('');
-  const [newProductVideoUrl, setNewProductVideoUrl] = useState('');
-
-  const [newNewsTitle, setNewNewsTitle] = useState('');
-  const [newNewsContent, setNewNewsContent] = useState('');
-  const [newNewsImage, setNewNewsImage] = useState('');
-
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [editingNews, setEditingNews] = useState<News | null>(null);
+  // Fetch all news articles
+  const fetchNews = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch('/api/news');
+      const data = await res.json();
+      if (data.success) {
+        setNews(data.data);
+      } else {
+        throw new Error(data.error || 'Failed to fetch news');
+      }
+    } catch (error) {
+      toast({ title: "Error", description: error instanceof Error ? error.message : String(error), variant: "destructive" });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    fetchProducts();
     fetchNews();
   }, []);
 
-  const fetchProducts = async () => {
-    const response = await fetch('/api/products');
-    const data = await response.json();
-    setProducts(data);
+  // Handle opening the dialog for editing or adding news
+  const handleOpenDialog = (article: NewsArticle | null = null) => {
+    setEditingNews(article);
+    setIsDialogOpen(true);
   };
 
-  const fetchNews = async () => {
-    const response = await fetch('/api/news');
-    const data = await response.json();
-    setNews(data);
+  // Handle deleting a news article
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await fetch(`/api/news/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (data.success) {
+        toast({ title: "Success", description: "News article deleted." });
+        fetchNews(); // Refresh the list
+      } else {
+        throw new Error(data.error || 'Failed to delete article');
+      }
+    } catch (error) {
+      toast({ title: "Error", description: error instanceof Error ? error.message : String(error), variant: "destructive" });
+    }
   };
 
-  const handleCreateProduct = async () => {
-    await fetch('/api/products', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        name: newProductName, 
-        description: newProductDescription, 
-        image: newProductImage, 
-        videoUrl: newProductVideoUrl 
-      }),
-    });
-    setNewProductName('');
-    setNewProductDescription('');
-    setNewProductImage('');
-    setNewProductVideoUrl('');
-    fetchProducts();
-  };
+  // Handle toggling the featured status
+  const handleToggleFeature = async (article: NewsArticle) => {
+    try {
+        const formData = new FormData();
+        formData.append('title', article.title);
+        formData.append('content', article.content);
+        formData.append('isFeatured', String(!article.isFeatured));
+        formData.append('tags', article.tags.join(','));
+        if(article.videoUrl) formData.append('videoUrl', article.videoUrl);
 
-  const handleCreateNews = async () => {
-    await fetch('/api/news', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        title: newNewsTitle, 
-        content: newNewsContent, 
-        image: newNewsImage 
-      }),
-    });
-    setNewNewsTitle('');
-    setNewNewsContent('');
-    setNewNewsImage('');
-    fetchNews();
-  };
-
-  const handleUpdateProduct = async () => {
-    if (!editingProduct) return;
-    await fetch(`/api/products/${editingProduct.id}` , {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(editingProduct),
-    });
-    setEditingProduct(null);
-    fetchProducts();
-  };
-
-  const handleUpdateNews = async () => {
-    if (!editingNews) return;
-    await fetch(`/api/news/${editingNews.id}` , {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(editingNews),
-    });
-    setEditingNews(null);
-    fetchNews();
-  };
-
-  const handleDeleteProduct = async (id: string) => {
-    await fetch(`/api/products/${id}` , {
-      method: 'DELETE',
-    });
-    fetchProducts();
-  };
-
-  const handleDeleteNews = async (id: string) => {
-    await fetch(`/api/news/${id}` , {
-      method: 'DELETE',
-    });
-    fetchNews();
+      const res = await fetch(`/api/news/${article._id}`, {
+        method: 'PUT',
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast({ title: "Success", description: `Article ${!article.isFeatured ? 'featured' : 'unfeatured'}.` });
+        fetchNews();
+      } else {
+        throw new Error(data.error || 'Failed to update status');
+      }
+    } catch (error) {
+      toast({ title: "Error", description: error instanceof Error ? error.message : String(error), variant: "destructive" });
+    }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Manage Products</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-semibold">Add New Product</h3>
-                <Input
-                  placeholder="Product Name"
-                  value={newProductName}
-                  onChange={(e) => setNewProductName(e.target.value)}
-                  className="mb-2"
-                />
-                <Textarea
-                  placeholder="Product Description"
-                  value={newProductDescription}
-                  onChange={(e) => setNewProductDescription(e.target.value)}
-                  className="mb-2"
-                />
-                <Input
-                  placeholder="Image URL"
-                  value={newProductImage}
-                  onChange={(e) => setNewProductImage(e.target.value)}
-                  className="mb-2"
-                />
-                <Input
-                  placeholder="Video URL"
-                  value={newProductVideoUrl}
-                  onChange={(e) => setNewProductVideoUrl(e.target.value)}
-                  className="mb-2"
-                />
-                <Button onClick={handleCreateProduct}>Add Product</Button>
-              </div>
-              <div>
-                <h3 className="font-semibold">Existing Products</h3>
-                <ul className="space-y-2">
-                  {products.map((product) => (
-                    <li key={product.id} className="flex justify-between items-center">
-                      <span>{product.name}</span>
-                      <div className="space-x-2">
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="outline" onClick={() => setEditingProduct(product)}>Edit</Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Edit Product</DialogTitle>
-                            </DialogHeader>
-                            {editingProduct && (
-                              <div className="space-y-4">
-                                <Input
-                                  value={editingProduct.name}
-                                  onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
-                                />
-                                <Textarea
-                                  value={editingProduct.description}
-                                  onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
-                                />
-                                <Input
-                                  placeholder="Image URL"
-                                  value={editingProduct.image}
-                                  onChange={(e) => setEditingProduct({ ...editingProduct, image: e.target.value })}
-                                />
-                                <Input
-                                  placeholder="Video URL"
-                                  value={editingProduct.videoUrl}
-                                  onChange={(e) => setEditingProduct({ ...editingProduct, videoUrl: e.target.value })}
-                                />
-                                <DialogClose asChild>
-                                   <Button onClick={() => handleUpdateProduct()}>Save</Button>
-                                </DialogClose>
-                              </div>
-                            )}
-                          </DialogContent>
-                        </Dialog>
-                        <Button variant="destructive" onClick={() => handleDeleteProduct(product.id)}>Delete</Button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Manage News</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-semibold">Add New News</h3>
-                <Input
-                  placeholder="News Title"
-                  value={newNewsTitle}
-                  onChange={(e) => setNewNewsTitle(e.target.value)}
-                  className="mb-2"
-                />
-                <Textarea
-                  placeholder="News Content"
-                  value={newNewsContent}
-                  onChange={(e) => setNewNewsContent(e.target.value)}
-                  className="mb-2"
-                />
-                <Input
-                  placeholder="Image URL"
-                  value={newNewsImage}
-                  onChange={(e) => setNewNewsImage(e.target.value)}
-                  className="mb-2"
-                />
-                <Button onClick={handleCreateNews}>Add News</Button>
-              </div>
-              <div>
-                <h3 className="font-semibold">Existing News</h3>
-                <ul className="space-y-2">
-                  {news.map((newsItem) => (
-                    <li key={newsItem.id} className="flex justify-between items-center">
-                      <span>{newsItem.title}</span>
-                      <div className="space-x-2">
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="outline" onClick={() => setEditingNews(newsItem)}>Edit</Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Edit News</DialogTitle>
-                            </DialogHeader>
-                            {editingNews && (
-                              <div className="space-y-4">
-                                <Input
-                                  value={editingNews.title}
-                                  onChange={(e) => setEditingNews({ ...editingNews, title: e.target.value })}
-                                />
-                                <Textarea
-                                  value={editingNews.content}
-                                  onChange={(e) => setEditingNews({ ...editingNews, content: e.target.value })}
-                                />
-                                <Input
-                                  placeholder="Image URL"
-                                  value={editingNews.image}
-                                  onChange={(e) => setEditingNews({ ...editingNews, image: e.target.value })}
-                                />
-                                <DialogClose asChild>
-                                  <Button onClick={() => handleUpdateNews()}>Save</Button>
-                                </DialogClose>
-                              </div>
-                            )}
-                          </DialogContent>
-                        </Dialog>
-                        <Button variant="destructive" onClick={() => handleDeleteNews(newsItem.id)}>Delete</Button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+    <div className="container mx-auto py-10 pt-[300px]">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">News Management</h1>
+        <Button onClick={() => handleOpenDialog()}>Add New Article</Button>
       </div>
+
+      {isLoading ? (
+        <p>Loading news...</p>
+      ) : (
+        <div className="border rounded-lg">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Title</TableHead>
+                <TableHead>Tags</TableHead>
+                <TableHead>Featured</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {news.map((article) => (
+                <TableRow key={article._id}>
+                  <TableCell className="font-medium">{article.title}</TableCell>
+                  <TableCell>{article.tags.join(', ')}</TableCell>
+                  <TableCell>{article.isFeatured ? 'Yes' : 'No'}</TableCell>
+                  <TableCell className="text-right space-x-2">
+                    <Button variant="outline" size="sm" onClick={() => handleToggleFeature(article)}>
+                      {article.isFeatured ? 'Unfeature' : 'Feature'}
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => handleOpenDialog(article)}>Edit</Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="destructive" size="sm">Delete</Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the article.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => handleDelete(article._id)}>Delete</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      )}
+
+      <NewsForm
+        isOpen={isDialogOpen}
+        setIsOpen={setIsDialogOpen}
+        editingNews={editingNews}
+        onFinished={fetchNews}
+      />
     </div>
+  );
+}
+
+
+// News Form Component
+interface NewsFormProps {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  editingNews: NewsArticle | null;
+  onFinished: () => void;
+}
+
+function NewsForm({ isOpen, setIsOpen, editingNews, onFinished }: NewsFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+    const url = editingNews ? `/api/news/${editingNews._id}` : '/api/news';
+    const method = editingNews ? 'PUT' : 'POST';
+
+    try {
+      const res = await fetch(url, { method, body: formData });
+      const data = await res.json();
+
+      if (res.ok) {
+        toast({ title: "Success", description: `Article ${editingNews ? 'updated' : 'created'}.` });
+        onFinished();
+        setIsOpen(false);
+      } else {
+        throw new Error(data.error || 'An error occurred');
+      }
+    } catch (error) {
+       toast({ title: "Error", description: error instanceof Error ? error.message : String(error), variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogContent className="sm:max-w-[625px]">
+        <DialogHeader>
+          <DialogTitle>{editingNews ? 'Edit Article' : 'Add New Article'}</DialogTitle>
+          <DialogDescription>
+            Fill in the details below. Click save when you're done.
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="title" className="text-right">Title</Label>
+            <Input id="title" name="title" defaultValue={editingNews?.title} className="col-span-3" required />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="content" className="text-right">Content</Label>
+            <Textarea id="content" name="content" defaultValue={editingNews?.content} className="col-span-3" required />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="imagePath" className="text-right">Image</Label>
+            <Input id="imagePath" name="imagePath" type="file" className="col-span-3" required={!editingNews} />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="videoUrl" className="text-right">Video URL</Label>
+            <Input id="videoUrl" name="videoUrl" defaultValue={editingNews?.videoUrl} className="col-span-3" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="tags" className="text-right">Tags</Label>
+            <Input id="tags" name="tags" defaultValue={editingNews?.tags.join(', ')} className="col-span-3" placeholder="e.g. tech, breaking, hot" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+             <Label htmlFor="isFeatured" className="text-right">Feature?</Label>
+            <div className="col-span-3 flex items-center">
+               <Checkbox id="isFeatured" name="isFeatured" defaultChecked={editingNews?.isFeatured} value="true" />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">Cancel</Button>
+            </DialogClose>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Saving...' : 'Save Changes'}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }

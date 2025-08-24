@@ -1,57 +1,98 @@
-import { NextResponse } from 'next/server';
+
+import { NextRequest, NextResponse } from 'next/server';
+import dbConnect from '@/lib/dbConnect';
+import News from '@/models/News';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const newsFilePath = path.join(process.cwd(), 'data', 'news.json');
+export const dynamic = 'force-dynamic';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+const uploadDir = path.join(process.cwd(), '/public/uploads');
+
+// GET a single news article by ID
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const fileContents = await fs.readFile(newsFilePath, 'utf8');
-    const news = JSON.parse(fileContents);
-    const newsItem = news.find((n: any) => n.id === params.id);
-    if (newsItem) {
-      return NextResponse.json(newsItem);
-    } else {
-      return NextResponse.json({ error: 'News item not found' }, { status: 404 });
+    await dbConnect();
+    const news = await News.findById(params.id);
+    if (!news) {
+      return NextResponse.json({ success: false, error: 'News not found' }, { status: 404 });
     }
+    return NextResponse.json({ success: true, data: news });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to read news data' }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+// PUT (update) a news article by ID
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const fileContents = await fs.readFile(newsFilePath, 'utf8');
-    let news = JSON.parse(fileContents);
-    const updatedNewsItem = await request.json();
-    const newsItemIndex = news.findIndex((n: any) => n.id === params.id);
+    await dbConnect();
+    const formData = await req.formData();
+    const existingNews = await News.findById(params.id);
 
-    if (newsItemIndex !== -1) {
-      news[newsItemIndex] = { ...news[newsItemIndex], ...updatedNewsItem };
-      await fs.writeFile(newsFilePath, JSON.stringify(news, null, 2));
-      return NextResponse.json(news[newsItemIndex]);
-    } else {
-      return NextResponse.json({ error: 'News item not found' }, { status: 404 });
+    if (!existingNews) {
+      return NextResponse.json({ success: false, error: 'News not found' }, { status: 404 });
     }
+
+    const updateData: any = {
+      title: formData.get('title') as string,
+      content: formData.get('content') as string,
+      videoUrl: formData.get('videoUrl') as string,
+      tags: (formData.get('tags') as string).split(',').map(tag => tag.trim()),
+      isFeatured: formData.get('isFeatured') === 'true',
+    };
+
+    const imageFile = formData.get('imagePath') as File | null;
+    if (imageFile && imageFile.size > 0) {
+      // Delete old image
+      if (existingNews.imagePath) {
+        const oldImagePath = path.join(process.cwd(), 'public', existingNews.imagePath);
+        try {
+          await fs.unlink(oldImagePath);
+        } catch (err) {
+          console.error('Failed to delete old image:', err);
+        }
+      }
+      // Save new image
+      const buffer = Buffer.from(await imageFile.arrayBuffer());
+      const filename = `${Date.now()}_${imageFile.name}`;
+      const filePath = path.join(uploadDir, filename);
+      await fs.writeFile(filePath, buffer);
+      updateData.imagePath = `/uploads/${filename}`;
+    }
+
+    const updatedNews = await News.findByIdAndUpdate(params.id, updateData, { new: true });
+    return NextResponse.json({ success: true, data: updatedNews });
+
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to update news item' }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+// DELETE a news article by ID
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const fileContents = await fs.readFile(newsFilePath, 'utf8');
-    let news = JSON.parse(fileContents);
-    const newsItemIndex = news.findIndex((n: any) => n.id === params.id);
-
-    if (newsItemIndex !== -1) {
-      news.splice(newsItemIndex, 1);
-      await fs.writeFile(newsFilePath, JSON.stringify(news, null, 2));
-      return new NextResponse(null, { status: 204 });
-    } else {
-      return NextResponse.json({ error: 'News item not found' }, { status: 404 });
+    await dbConnect();
+    const deletedNews = await News.findByIdAndDelete(params.id);
+    if (!deletedNews) {
+      return NextResponse.json({ success: false, error: 'News not found' }, { status: 404 });
     }
+
+    // Delete the associated image file
+    if (deletedNews.imagePath) {
+      const imagePath = path.join(process.cwd(), 'public', deletedNews.imagePath);
+      try {
+        await fs.unlink(imagePath);
+      } catch (err) {
+        console.error('Failed to delete image file:', err);
+      }
+    }
+
+    return NextResponse.json({ success: true, data: {} });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete news item' }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
   }
 }

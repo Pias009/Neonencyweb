@@ -8,6 +8,7 @@ import { Toaster } from '@/components/ui/toaster';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('http://localhost:3000'),
   title: 'NEONENCY - Futuristic SaaS Solutions',
   description: 'Next-generation SaaS platform with cutting-edge technology and neon-powered innovation.',
   keywords: 'SaaS, technology, neon, futuristic, innovation',
