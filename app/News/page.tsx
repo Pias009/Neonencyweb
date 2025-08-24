@@ -66,12 +66,14 @@ export default async function NewsPage() {
                     objectFit="cover"
                     className="group-hover:scale-110 transition-transform duration-500"
                   />
-                  {article.tags && article.tags[0] && (
-                      <div className="absolute top-4 left-4">
-                          <Badge className="glass px-3 py-1 text-sm">
-                              {article.tags[0]}
-                          </Badge>
-                      </div>
+                  {article.tags && (
+                    <div className="absolute top-4 left-4 flex gap-2">
+                      {article.tags.map(tag => (
+                        <Badge key={tag} className="glass px-3 py-1 text-sm">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
                   )}
                 </div>
                 <CardContent className="p-6 flex flex-col flex-grow">

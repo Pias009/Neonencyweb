@@ -10,5 +10,35 @@
     "title": "News 2",
     "content": "This is news 2",
     "image": "https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  },
+  {
+    "id": "e6775d1d-9163-4a58-ba91-816ca9247aed",
+    "title": "erterte",
+    "content": "rret",
+    "image": "/uploads/1756025848311_IMG_20230518_172335.jpg",
+    "tags": [
+      "ertert"
+    ],
+    "createdAt": "2025-08-24T08:57:28.324Z"
+  },
+  {
+    "id": "1603f01c-02c7-4c2a-aa9c-a00f6c6afdf1",
+    "title": "dfgh",
+    "content": "rfghrth",
+    "image": "/uploads/1756025914948_IMG_0679.JPG",
+    "tags": [
+      "trrthrthr"
+    ],
+    "createdAt": "2025-08-24T08:58:34.961Z"
+  },
+  {
+    "id": "550c27ba-c5d0-4d43-9d96-0c53be16829f",
+    "title": "werrrrrg",
+    "content": "errrrrrrrrrrr",
+    "image": "/uploads/1756026065662_IMG_0680.JPG",
+    "tags": [
+      "eee"
+    ],
+    "createdAt": "2025-08-24T09:01:05.675Z"
   }
 ]

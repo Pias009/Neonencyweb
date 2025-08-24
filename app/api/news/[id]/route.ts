@@ -1,98 +1,92 @@
-
-import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/dbConnect';
-import News from '@/models/News';
-import { promises as fs } from 'fs';
+import { NextResponse } from 'next/server';
 import path from 'path';
+import { promises as fs } from 'fs';
 
-export const dynamic = 'force-dynamic';
+const jsonDirectory = path.join(process.cwd(), 'data');
+const newsFilePath = path.join(jsonDirectory, 'news.json');
 
-const uploadDir = path.join(process.cwd(), '/public/uploads');
-
-// GET a single news article by ID
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+async function readNewsFile() {
   try {
-    await dbConnect();
-    const news = await News.findById(params.id);
-    if (!news) {
-      return NextResponse.json({ success: false, error: 'News not found' }, { status: 404 });
-    }
-    return NextResponse.json({ success: true, data: news });
+    const fileContents = await fs.readFile(newsFilePath, 'utf8');
+    return JSON.parse(fileContents);
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
+    if (error.code === 'ENOENT') {
+      return [];
+    }
+    throw error;
   }
 }
 
-// PUT (update) a news article by ID
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  try {
-    await dbConnect();
-    const formData = await req.formData();
-    const existingNews = await News.findById(params.id);
+async function writeNewsFile(data) {
+  await fs.writeFile(newsFilePath, JSON.stringify(data, null, 2), 'utf8');
+}
 
-    if (!existingNews) {
-      return NextResponse.json({ success: false, error: 'News not found' }, { status: 404 });
+// GET a single article by ID
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+  try {
+    const newsData = await readNewsFile();
+    const article = newsData.find((a) => a.id === params.id);
+    if (!article) {
+      return NextResponse.json({ message: 'Article not found' }, { status: 404 });
+    }
+    return NextResponse.json({ success: true, data: article });
+  } catch (error) {
+    console.error(`Error in GET /api/news/[id]:`, error);
+    return NextResponse.json({ message: 'Error fetching article' }, { status: 500 });
+  }
+}
+
+// PUT (update) an article by ID
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
+  try {
+    const formData = await request.formData();
+    const newsData = await readNewsFile();
+    const articleIndex = newsData.findIndex((a) => a.id === params.id);
+
+    if (articleIndex === -1) {
+      return NextResponse.json({ message: 'Article not found' }, { status: 404 });
     }
 
-    const updateData: any = {
-      title: formData.get('title') as string,
-      content: formData.get('content') as string,
-      videoUrl: formData.get('videoUrl') as string,
-      tags: (formData.get('tags') as string).split(',').map(tag => tag.trim()),
-      isFeatured: formData.get('isFeatured') === 'true',
-    };
+    const existingArticle = newsData[articleIndex];
 
-    const imageFile = formData.get('imagePath') as File | null;
-    if (imageFile && imageFile.size > 0) {
-      // Delete old image
-      if (existingNews.imagePath) {
-        const oldImagePath = path.join(process.cwd(), 'public', existingNews.imagePath);
-        try {
-          await fs.unlink(oldImagePath);
-        } catch (err) {
-          console.error('Failed to delete old image:', err);
+    const updatedArticle = { ...existingArticle };
+
+    for (const [key, value] of formData.entries()) {
+        if(key === 'tags') {
+            updatedArticle[key] = value.split(',');
+        } else if (key === 'isFeatured') {
+            updatedArticle[key] = value === 'true';
+        } else if (value) {
+            updatedArticle[key] = value;
         }
-      }
-      // Save new image
-      const buffer = Buffer.from(await imageFile.arrayBuffer());
-      const filename = `${Date.now()}_${imageFile.name}`;
-      const filePath = path.join(uploadDir, filename);
-      await fs.writeFile(filePath, buffer);
-      updateData.imagePath = `/uploads/${filename}`;
     }
 
-    const updatedNews = await News.findByIdAndUpdate(params.id, updateData, { new: true });
-    return NextResponse.json({ success: true, data: updatedNews });
+    newsData[articleIndex] = updatedArticle;
+    await writeNewsFile(newsData);
 
+    return NextResponse.json({ success: true, data: updatedArticle });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
+    console.error(`Error in PUT /api/news/[id]:`, error);
+    return NextResponse.json({ message: 'Error updating article' }, { status: 500 });
   }
 }
 
-// DELETE a news article by ID
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+
+// DELETE an article by ID
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
-    await dbConnect();
-    const deletedNews = await News.findByIdAndDelete(params.id);
-    if (!deletedNews) {
-      return NextResponse.json({ success: false, error: 'News not found' }, { status: 404 });
+    const newsData = await readNewsFile();
+    const filteredData = newsData.filter((a) => a.id !== params.id);
+
+    if (newsData.length === filteredData.length) {
+      return NextResponse.json({ message: 'Article not found' }, { status: 404 });
     }
 
-    // Delete the associated image file
-    if (deletedNews.imagePath) {
-      const imagePath = path.join(process.cwd(), 'public', deletedNews.imagePath);
-      try {
-        await fs.unlink(imagePath);
-      } catch (err) {
-        console.error('Failed to delete image file:', err);
-      }
-    }
+    await writeNewsFile(filteredData);
 
-    return NextResponse.json({ success: true, data: {} });
+    return NextResponse.json({ success: true, message: 'Article deleted' });
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
+    console.error(`Error in DELETE /api/news/[id]:`, error);
+    return NextResponse.json({ message: 'Error deleting article' }, { status: 500 });
   }
 }

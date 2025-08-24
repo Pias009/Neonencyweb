@@ -1,100 +1,86 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
-import { notFound } from 'next/navigation';
-import Image from 'next/image';
-
-export const dynamic = 'force-dynamic'; // Add this line to force dynamic rendering
-
-// Define the shape of a news article
 interface NewsArticle {
   _id: string;
   title: string;
   content: string;
   imagePath: string;
-  videoUrl?: string;
   tags: string[];
-  isFeatured: boolean;
   createdAt: string;
 }
 
 async function getNewsArticle(id: string): Promise<NewsArticle | null> {
-  // This fetch call is made on the server, so we need the full URL.
-  // Replace this with your actual production URL in a .env file for production.
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-  const res = await fetch(`${baseUrl}/api/news/${id}`, { cache: 'no-store' }); // no-store to ensure fresh data
+  const res = await fetch(`${baseUrl}/api/news/${id}`, { cache: 'no-store' });
 
   if (!res.ok) {
     return null;
   }
+
   const data = await res.json();
-  if (!data.success) {
-    return null;
+  if (data.success) {
+    // The API returns `image`, but the component expects `imagePath`
+    return { ...data.data, imagePath: data.data.image };
   }
-  return data.data;
+  return null;
 }
 
-// Helper to get embeddable YouTube URL
-function getYouTubeEmbedUrl(url: string): string | null {
-    let videoId;
-    if (url.includes('youtube.com/watch?v=')) {
-        videoId = url.split('v=')[1].split('&')[0];
-    } else if (url.includes('youtu.be/')) {
-        videoId = url.split('youtu.be/')[1].split('?')[0];
-    } else {
-        return null;
-    }
-    return `https://www.youtube.com/embed/${videoId}`;
-}
+const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-export default async function NewsDetailPage({ params }: { params: { id: string } }) {
+export default async function NewsArticlePage({ params }: { params: { id: string } }) {
   const article = await getNewsArticle(params.id);
 
   if (!article) {
-    notFound();
+    return (
+      <div className="pt-32 pb-16 px-4 text-center">
+        <h1 className="text-4xl font-bold">Article not found</h1>
+        <Link href="/News" className="mt-4 inline-flex items-center gap-2 text-cyan-400">
+          <ArrowLeft className="w-4 h-4" />
+          Back to News
+        </Link>
+      </div>
+    );
   }
 
-  const embedUrl = article.videoUrl ? getYouTubeEmbedUrl(article.videoUrl) : null;
-
   return (
-    <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8">
-      <article className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-extrabold text-center mb-4">{article.title}</h1>
-        <div className="flex justify-center items-center space-x-2 mb-8">
-            {article.tags.map(tag => (
-                <span key={tag} className="bg-gray-200 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">{tag}</span>
+    <div className="pt-32 pb-16 px-4">
+      <div className="max-w-4xl mx-auto">
+        <Link href="/News" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-8">
+          <ArrowLeft className="w-4 h-4" />
+          Back to News
+        </Link>
+
+        <h1 className="text-4xl md:text-5xl font-bold orbitron neon-text mb-4">{article.title}</h1>
+
+        <div className="flex items-center gap-4 text-muted-foreground mb-8">
+          <div className="flex items-center gap-2">
+            <Calendar className="w-4 h-4" />
+            <span>{formatDate(article.createdAt)}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            {article.tags && article.tags.map(tag => (
+              <Badge key={tag} className="glass px-3 py-1 text-sm">{tag}</Badge>
             ))}
+          </div>
         </div>
 
-        <div className="relative w-full h-96 mb-8">
+        <div className="relative h-96 w-full rounded-3xl overflow-hidden mb-8">
           <Image
             src={article.imagePath}
             alt={article.title}
             layout="fill"
             objectFit="cover"
-            className="rounded-lg"
           />
         </div>
 
-        <div className="prose prose-lg max-w-none mx-auto">
+        <div className="prose prose-invert max-w-none text-lg text-muted-foreground leading-relaxed">
           <p>{article.content}</p>
         </div>
-
-        {embedUrl && (
-            <div className="mt-12">
-                <h2 className="text-2xl font-bold text-center mb-4">Watch Video</h2>
-                <div className="aspect-w-16 aspect-h-9">
-                    <iframe 
-                        src={embedUrl} 
-                        title="YouTube video player" 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowFullScreen
-                        className="w-full h-full rounded-lg"
-                    ></iframe>
-                </div>
-            </div>
-        )}
-
-      </article>
+      </div>
     </div>
   );
 }
