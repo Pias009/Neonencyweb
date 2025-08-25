@@ -14,5 +14,70 @@
       { "name": "Next.js", "icon": "⚛️", "description": "The frontend of our application is built with Next.js for a fast and responsive user experience." },
       { "name": "ethers.js", "icon": "🔗", "description": "We use ethers.js to interact with the BNB Smart Chain and manage wallet connections." }
     ]
+  },
+  {
+    "id": "2",
+    "name": "BinGi Super App",
+    "shortTitle": "Multifunctional Digital Platform",
+    "category": "Social Utility",
+    "description": "A multifunctional digital platform designed to connect people, simplify services, and provide social utility tools.",
+    "features": ["Rent & Buy", "BinGi Profile", "Blood Donation", "User-friendly interface"],
+    "image": "https://images.pexels.com/photos/164527/pexels-photo-164527.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "longDescription": "BinGi Super App is a multifunctional digital platform designed to connect people, simplify services, and provide social utility tools. It includes a property marketplace, a digital life profile, and a blood donation feature.",
+    "techStack": [
+      { "name": "React Native", "icon": "📱", "description": "Cross-platform mobile application framework." },
+      { "name": "Node.js", "icon": "🚀", "description": "Backend server for API and business logic." },
+      { "name": "MongoDB", "icon": "💾", "description": "NoSQL database for storing user data." }
+    ],
+    "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
+  {
+    "id": "3",
+    "name": "FlexPrime",
+    "shortTitle": "OTT Combo Service",
+    "category": "Entertainment",
+    "description": "Affordable combined subscription service providing access to premium streaming platforms for Bangladesh users.",
+    "features": ["4-in-1 streaming", "Flexible pricing", "24/7 support", "Instant account activation"],
+    "image": "https://images.pexels.com/photos/7988079/pexels-photo-7988079.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "longDescription": "FlexPrime is an affordable combined subscription service providing access to premium streaming platforms for Bangladesh users. It offers a 4-in-1 streaming package with flexible pricing and 24/7 support.",
+    "techStack": [
+      { "name": "React", "icon": "⚛️", "description": "Frontend for the web application." },
+      { "name": "Node.js", "icon": "🚀", "description": "Backend for user management and subscription handling." },
+      { "name": "Stripe", "icon": "💳", "description": "Payment gateway for handling subscriptions." }
+    ],
+    "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
+  {
+    "id": "4",
+    "name": "SECURITY SOLUTION",
+    "shortTitle": "Physical Security Solutions",
+    "category": "Security",
+    "description": "NEONECY’s physical store offering complete business and personal security solutions.",
+    "features": ["CCTV systems", "GPS Trackers", "POS software", "Security consulting"],
+    "image": "https://images.pexels.com/photos/221011/pexels-photo-221011.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "longDescription": "SECURITY SOLUTION is NEONECY’s physical store offering complete business and personal security solutions. It provides CCTV systems, GPS trackers, POS software, and security consulting services.",
+    "techStack": [
+      { "name": "Odoo", "icon": "💼", "description": "ERP system for managing inventory and sales." },
+      { "name": "Python", "icon": "🐍", "description": "Backend for custom POS software." },
+      { "name": "React", "icon": "⚛️", "description": "Frontend for the POS system." }
+    ],
+    "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
+  {
+    "id": "5",
+    "name": "TakaPay (TK)",
+    "shortTitle": "Digital Token",
+    "category": "Cryptocurrency",
+    "description": "Bangladesh-focused digital currency with a total supply equal to the population (72M), designed for secure and legal digital transactions.",
+    "features": ["Total supply: 72,000,000", "Official website: tk.neonecy.com", "Enables financial transactions", "Easy integration"],
+    "image": "https://images.pexels.com/photos/844124/pexels-photo-844124.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "longDescription": "TakaPay (TK) is a Bangladesh-focused digital currency with a total supply equal to the population (72M), designed for secure and legal digital transactions. It enables financial transactions and experimental digital applications.",
+    "techStack": [
+      { "name": "BNB Smart Chain", "icon": "💰", "description": "The backbone of our platform, providing a secure and scalable infrastructure for transactions." },
+      { "name": "Solidity", "icon": "📜", "description": "The smart contracts that power our token and ensure the integrity of the platform." },
+      { "name": "Next.js", "icon": "⚛️", "description": "The frontend of our application is built with Next.js for a fast and responsive user experience." },
+      { "name": "ethers.js", "icon": "🔗", "description": "We use ethers.js to interact with the BNB Smart Chain and manage wallet connections." }
+    ],
+    "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
   }
 ]
