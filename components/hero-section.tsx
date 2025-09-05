@@ -153,7 +153,7 @@ export function HeroSection() {
             </div>
           </div>
         </div>
-
+        
         {/* CTA Button */}
         <div ref={buttonRef}>
           

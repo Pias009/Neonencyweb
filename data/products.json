@@ -79,5 +79,47 @@
       { "name": "ethers.js", "icon": "🔗", "description": "We use ethers.js to interact with the BNB Smart Chain and manage wallet connections." }
     ],
     "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
+  {
+    "id": "6",
+    "name": "BinGi Business Management Software",
+    "type": "Business Software / E-commerce Integration",
+    "status": "Future / In Development",
+    "shortDescription": "Software to automate business operations, sync products to e-commerce platforms, and provide invoice authentication with QR codes.",
+    "features": [
+      "Automated product listing online.",
+      "Invoice verification with QR codes.",
+      "Integration with BinGi App and website for streamlined operations.",
+      "Dashboard for managing sales, inventory, and customer data."
+    ],
+    "category": "Upcoming"
+  },
+  {
+    "id": "7",
+    "name": "BinGi Money Manager",
+    "type": "Finance / Personal Management Tool",
+    "status": "Future / In Development",
+    "shortDescription": "Digital finance management tool to track daily expenses, income, budgets, and financial goals.",
+    "features": [
+      "Daily expense tracking.",
+      "Income and budget management.",
+      "Financial goal tracking and reporting.",
+      "Optional AI integration for personalized guidance."
+    ],
+    "category": "Upcoming"
+  },
+  {
+    "id": "8",
+    "name": "Affiliated Bonus",
+    "type": "Affiliate / Revenue Sharing Platform",
+    "status": "Closed / Archived",
+    "year": "2024",
+    "shortDescription": "A sub-affiliate platform where users could open partner accounts across multiple websites and receive 50% of generated revenue.",
+    "features": [
+      "Users could create accounts for trading and other services.",
+      "Revenue sharing model: 50% of NEONECY revenue given to users.",
+      "Active for 4 months before partner account bans led to closure."
+    ],
+    "category": "Archived"
   }
 ]
