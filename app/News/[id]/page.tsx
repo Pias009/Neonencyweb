@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, ArrowLeft } from "lucide-react";
@@ -23,8 +24,7 @@ async function getNewsArticle(id: string): Promise<NewsArticle | null> {
 
   const data = await res.json();
   if (data.success) {
-    // The API returns `image`, but the component expects `imagePath`
-    return { ...data.data, imagePath: data.data.image };
+    return data.data;
   }
   return null;
 }
@@ -47,39 +47,44 @@ export default async function NewsArticlePage({ params }: { params: { id: string
   }
 
   return (
-    <div className="pt-32 pb-16 px-4">
+    <div className="pt-32 pb-16 px-4 bg-gray-900 text-white">
       <div className="max-w-4xl mx-auto">
         <Link href="/News" className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 mb-8">
           <ArrowLeft className="w-4 h-4" />
           Back to News
         </Link>
 
-        <h1 className="text-4xl md:text-5xl font-bold orbitron neon-text mb-4">{article.title}</h1>
-
-        <div className="flex items-center gap-4 text-muted-foreground mb-8">
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
-            <span>{formatDate(article.createdAt)}</span>
+        <article className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+          <div className="relative h-96 w-full">
+            <Image
+              src={article.imagePath}
+              alt={article.title}
+              layout="fill"
+              objectFit="cover"
+            />
           </div>
-          <div className="flex items-center gap-2">
-            {article.tags && article.tags.map(tag => (
-              <Badge key={tag} className="glass px-3 py-1 text-sm">{tag}</Badge>
-            ))}
+          <div className="p-8">
+            <h1 className="text-3xl md:text-4xl font-bold orbitron neon-text mb-4 text-left">{article.title}</h1>
+            
+            <div className="flex flex-wrap items-center gap-4 text-gray-400 mb-6 text-left">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                <span>{formatDate(article.createdAt)}</span>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                {article.tags && article.tags.map(tag => (
+                  <Badge key={tag} variant="outline" className="border-cyan-400 text-cyan-400 px-3 py-1 text-sm">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            <div className="text-lg text-gray-300 leading-relaxed text-left whitespace-pre-line">
+              <p>{article.content}</p>
+            </div>
           </div>
-        </div>
-
-        <div className="relative h-96 w-full rounded-3xl overflow-hidden mb-8">
-          <Image
-            src={article.imagePath}
-            alt={article.title}
-            layout="fill"
-            objectFit="cover"
-          />
-        </div>
-
-        <div className="prose prose-invert max-w-none text-lg text-muted-foreground leading-relaxed">
-          <p>{article.content}</p>
-        </div>
+        </article>
       </div>
     </div>
   );

@@ -1,51 +1,31 @@
 import { NextResponse } from 'next/server';
 import path from 'path';
 import { promises as fs } from 'fs';
-import { v4 as uuidv4 } from 'uuid';
+import dbConnect from '@/lib/dbConnect';
+import News from '@/models/News';
 
-const jsonDirectory = path.join(process.cwd(), 'data');
-const newsFilePath = path.join(jsonDirectory, 'news.json');
 const uploadsDirectory = path.join(process.cwd(), 'public', 'uploads');
-
-async function readNewsFile() {
-  try {
-    const fileContents = await fs.readFile(newsFilePath, 'utf8');
-    return JSON.parse(fileContents);
-  } catch (error) {
-    if (error.code === 'ENOENT') {
-      return []; // Return empty array if file doesn't exist
-    }
-    throw error;
-  }
-}
-
-async function writeNewsFile(data) {
-  await fs.writeFile(newsFilePath, JSON.stringify(data, null, 2), 'utf8');
-}
 
 export async function GET() {
   try {
-    const newsData = await readNewsFile();
-    const transformedData = newsData.map((article) => ({
-      ...article,
-      _id: article.id,
-      imagePath: article.image,
-      tags: article.tags || [],
-    }));
-    return NextResponse.json({ success: true, data: transformedData });
+    await dbConnect();
+    const newsData = await News.find({});
+    return NextResponse.json({ success: true, data: newsData });
   } catch (error) {
-    console.error('Failed to read or parse news.json:', error);
+    console.error('Error fetching news:', error);
     return NextResponse.json({ message: 'Error fetching news' }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
   try {
+    await dbConnect();
     const formData = await request.formData();
     const title = formData.get('title') as string;
     const content = formData.get('content') as string;
     const imageFile = formData.get('imagePath') as File;
     const tags = formData.get('tags') as string;
+    const isFeatured = formData.get('isFeatured') === 'true';
 
     if (!title || !content || !imageFile) {
       return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
@@ -57,18 +37,15 @@ export async function POST(request: Request) {
     const imagePath = path.join(uploadsDirectory, imageName);
     await fs.writeFile(imagePath, imageBuffer);
 
-    const newsData = await readNewsFile();
-    const newArticle = {
-      id: uuidv4(),
+    const newArticle = new News({
       title,
       content,
-      image: `/uploads/${imageName}`,
+      imagePath: `/uploads/${imageName}`,
       tags: tags ? tags.split(',').map(tag => tag.trim()) : [],
-      createdAt: new Date().toISOString(),
-    };
+      isFeatured,
+    });
 
-    newsData.push(newArticle);
-    await writeNewsFile(newsData);
+    await newArticle.save();
 
     return NextResponse.json({ success: true, data: newArticle }, { status: 201 });
   } catch (error) {

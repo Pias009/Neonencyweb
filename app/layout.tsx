@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     title: 'NEONENCY - Futuristic SaaS Solutions',
     description: 'Next-generation SaaS platform with cutting-edge technology and neon-powered innovation.',
   },
+  icons: {
+    icon: '/images/logo.jpg',
+  },
 };
 
 export default function RootLayout({

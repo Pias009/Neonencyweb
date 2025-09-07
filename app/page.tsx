@@ -10,8 +10,8 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <FeaturedNewsSection />
       <FeaturesSection />
+         <FeaturedNewsSection />
       <CTASection />
     </>
   );
