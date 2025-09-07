@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -55,6 +56,7 @@ export default function AdminPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingNews, setEditingNews] = useState<NewsArticle | null>(null);
   const { toast } = useToast();
+  const router = useRouter();
 
   // Fetch all news articles
   const fetchNews = async () => {
@@ -126,11 +128,19 @@ export default function AdminPage() {
     }
   };
 
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.push('/admin/login');
+  };
+
   return (
     <div className="container mx-auto py-10 pt-[300px]">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">News Management</h1>
-        <Button onClick={() => handleOpenDialog()}>Add New Article</Button>
+        <div>
+          <Button onClick={() => handleOpenDialog()} className="mr-4">Add New Article</Button>
+          <Button onClick={handleLogout} variant="destructive">Logout</Button>
+        </div>
       </div>
 
       {isLoading ? (

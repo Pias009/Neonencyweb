@@ -1,9 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Navigation } from '@/components/navigation';
-import { Toaster } from '@/components/ui/toaster';
+import MainLayout from '@/components/main-layout';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -37,13 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} overflow-x-hidden`}>
-        <ThemeProvider attribute="class" defaultTheme="dark">
-          <Navigation />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Toaster />
-        </ThemeProvider>
+        <MainLayout>{children}</MainLayout>
       </body>
     </html>
   );
