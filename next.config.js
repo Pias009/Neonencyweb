@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  images: { unoptimized: true },
+    images: {
+        domains: ['official.neonecy.com'],
+    },
 };
 
 module.exports = nextConfig;

@@ -24,7 +24,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const formData = await request.formData();
     const updateData: any = {};
 
-    for (const [key, value] of formData.entries()) {
+    for (const [key, value] of Array.from(formData.entries())) {
       if (key === 'tags') {
         updateData[key] = value.toString().split(',');
       } else if (key === 'isFeatured') {

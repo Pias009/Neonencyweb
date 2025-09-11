@@ -55,7 +55,9 @@ export function Navigation() {
           duration: 0.5, 
           ease: "power2.out" 
         });
-        gsap.to(navLinks, { opacity: 0, duration: 0.3 });
+        if (navLinks) {
+          gsap.to(navLinks, { opacity: 0, duration: 0.3 });
+        }
         gsap.to(logoRef.current, { y: 15, scale: 0.9, duration: 0.5, ease: "power2.out" });
       } else {
         // Scrolling up
@@ -64,7 +66,9 @@ export function Navigation() {
           duration: 0.5, 
           ease: "power2.out" 
         });
-        gsap.to(navLinks, { opacity: 1, duration: 0.3 });
+        if (navLinks) {
+          gsap.to(navLinks, { opacity: 1, duration: 0.3 });
+        }
         gsap.to(logoRef.current, { y: 0, scale: 1, duration: 0.5, ease: "power2.out" });
       }
       lastScrollY.current = currentScrollY;

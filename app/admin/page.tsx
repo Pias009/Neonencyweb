@@ -78,7 +78,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     fetchNews();
-  }, []);
+  }, [fetchNews]);
 
   // Handle opening the dialog for editing or adding news
   const handleOpenDialog = (article: NewsArticle | null = null) => {
@@ -247,7 +247,9 @@ function NewsForm({ isOpen, setIsOpen, editingNews, onFinished }: NewsFormProps)
         <DialogHeader>
           <DialogTitle>{editingNews ? 'Edit Article' : 'Add New Article'}</DialogTitle>
           <DialogDescription>
-            Fill in the details below. Click save when you're done.
+            <DialogDescription>
+            Fill in the details below. Click save when you&apos;re done.
+          </DialogDescription>
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">

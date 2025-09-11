@@ -45,7 +45,7 @@ export function NeonecyIntroMission() {
           <h2 className="text-3xl md:text-4xl font-bold orbitron text-white mb-4">Neonecy Mission</h2>
           <p className="text-white leading-relaxed">
             Our mission is to empower brands through powerful digital transformation. We aim to simplify technology for our clients and create impactful digital solutions
-            that drive engagement, growth, and long-term success. Whether it's crafting custom websites, running data-driven ad campaigns, or enhancing online presence,
+            that drive engagement, growth, and long-term success. Whether it&apos;s crafting custom websites, running data-driven ad campaigns, or enhancing online presence,
             we are committed to turning ideas into measurable results.
           </p>
         </div>
