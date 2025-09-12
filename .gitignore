@@ -1,22 +1,21 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
-/node_modules
-/.pnp
+node_modules/
+.pnp
 .pnp.js
 
 # testing
-/coverage
+coverage/
 
 # next.js
-/.next/
-/out/
+.next/
+out/
 
 # production
-/build
+build/
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
 
 # debug
@@ -29,31 +28,11 @@ yarn-error.log*
 .env*.local
 
 # vercel
-.vercel
+.vercel/
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-# Node modules (too heavy, rebuild on server)
-node_modules/
-
-# Next.js build output
-.next/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Env files (keep local, set manually in cPanel)
-.env
-.env.local
-.env.*.local
 
 # Build artifacts
-out/
 dist/
