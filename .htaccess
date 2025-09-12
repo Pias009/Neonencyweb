@@ -1,5 +1,0 @@
-PassengerAppRoot "/home/neonecy/official.neonecy.com"
-PassengerBaseURI "/"
-PassengerNodejs "/home/neonecy/nodevenv/official.neonecy.com/20/bin/node"
-PassengerAppType node
-PassengerStartupFile server.js
