@@ -1,7 +1,5 @@
-# This file is configured for cPanel. You may need to change the port number.
-
-RewriteEngine On
-RewriteRule ^$ http://127.0.0.1:3000/ [P,L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ http://127.0.0.1:3000/$1 [P,L]
+PassengerAppRoot "/home/neonecy/official.neonecy.com"
+PassengerBaseURI "/"
+PassengerNodejs "/home/neonecy/nodevenv/official.neonecy.com/20/bin/node"
+PassengerAppType node
+PassengerStartupFile server.js

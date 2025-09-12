@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -92,10 +93,11 @@ export default function ProductsPage() {
             >
               <div className="flex flex-col lg:flex-row h-full">
                 <div className="relative w-full lg:w-1/2 h-[580px] lg:h-[250px] overflow-hidden">
-                  <img
+                  <Image
                     src={product.image}
                     alt={product.name}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    fill
+                    className="object-cover"
                   />
                   <Badge className="absolute top-4 left-4 glass">
                     {product.category}
