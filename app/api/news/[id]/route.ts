@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import News from '@/models/News';
 
 // GET a single article by ID
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     await dbConnect();
     const article = await News.findById(params.id);
@@ -18,7 +18,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 }
 
 // PUT (update) an article by ID
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     await dbConnect();
     const formData = await request.formData();
@@ -48,7 +48,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 }
 
 // DELETE an article by ID
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     await dbConnect();
     const deletedArticle = await News.findByIdAndDelete(params.id);
