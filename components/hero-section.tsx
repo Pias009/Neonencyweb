@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,17 @@ export function HeroSection() {
   const logoRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
+  const [particles, setParticles] = useState<any[]>([]);
+
+  useEffect(() => {
+    const newParticles = [...Array(20)].map(() => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      animationDelay: `${Math.random() * 6}s`,
+      animationDuration: `${4 + Math.random() * 4}s`,
+    }));
+    setParticles(newParticles);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -97,16 +108,11 @@ export function HeroSection() {
 
       {/* Floating particles */}
       <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
+        {particles.map((style, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-float"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 6}s`,
-              animationDuration: `${4 + Math.random() * 4}s`,
-            }}
+            style={style}
           />
         ))}
       </div>
