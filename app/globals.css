@@ -100,11 +100,13 @@
 
 @layer utilities {
   .glass {
-    @apply backdrop-blur-xl bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10;
+    backdrop-filter: blur(12px); /* Direct CSS property */
+    @apply bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10;
   }
   
   .glass-strong {
-    @apply backdrop-blur-2xl bg-white/20 dark:bg-black/20 border border-white/30 dark:border-white/20;
+    backdrop-filter: blur(24px); /* Direct CSS property */
+    @apply bg-white/20 dark:bg-black/20 border border-white/30 dark:border-white/20;
   }
   
  
