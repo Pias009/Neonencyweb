@@ -3,7 +3,8 @@ import dbConnect from '@/lib/dbConnect';
 import News from '@/models/News';
 
 // GET a single article by ID
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, context: { params: { id: string } }) {
+  const { params } = context; // Destructure params here
   try {
     await dbConnect();
     const article = await News.findById(params.id);
@@ -18,7 +19,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // PUT (update) an article by ID
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: { params: { id: string } }) {
+  const { params } = context; // Destructure params here
   try {
     await dbConnect();
     const formData = await request.formData();
@@ -48,7 +50,8 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // DELETE an article by ID
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
+  const { params } = context; // Destructure params here
   try {
     await dbConnect();
     const deletedArticle = await News.findByIdAndDelete(params.id);
