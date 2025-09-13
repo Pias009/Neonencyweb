@@ -14,7 +14,7 @@ const features = [
   {
     icon: Zap,
     title: "Lightning Fast",
-    description: "Experience blazing-fast performance with our optimized infrastructure and edge computing technology."
+    description: "Experience d blazing-fast performance with our optimized infrastructure and edge computing technology."
   },
   {
     icon: Shield,
