@@ -31,7 +31,13 @@ async function getNewsArticle(id: string): Promise<NewsArticle | null> {
 
 const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-export default async function NewsArticlePage({ params }: { params: { id: string } }) {
+interface NewsArticlePageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function NewsArticlePage({ params }: NewsArticlePageProps) {
   const article = await getNewsArticle(params.id);
 
   if (!article) {
