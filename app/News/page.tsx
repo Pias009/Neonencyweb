@@ -46,7 +46,7 @@ export default async function NewsPage() {
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Stay updated with the latest features, updates, and insights from
-            our product team.
+            our product team..
           </p>
         </div>
 

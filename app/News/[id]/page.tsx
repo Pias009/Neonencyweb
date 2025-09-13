@@ -39,7 +39,7 @@ export default async function NewsArticlePage({ params }: { params: { id: string
         <h1 className="text-4xl font-bold">Article not found</h1>
         <Link href="/News" className="mt-4 inline-flex items-center gap-2 text-cyan-400">
           <ArrowLeft className="w-4 h-4" />
-          Back to News
+          Back to Newses
         </Link>
       </div>
     );
