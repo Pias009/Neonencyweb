@@ -17,8 +17,7 @@ interface NewsArticle {
 }
 
 async function getNews(): Promise<NewsArticle[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-  const res = await fetch(`${baseUrl}/api/news`, { cache: 'no-store' });
+  const res = await fetch('/api/news', { cache: 'no-store' });
   if (!res.ok) {
     console.error("Failed to fetch news for featured section");
     return [];

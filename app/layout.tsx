@@ -6,7 +6,7 @@ import MainLayout from '@/components/main-layout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
   title: 'NEONENCY - Futuristic SaaS Solutions',
   description: 'Next-generation SaaS platform with cutting-edge technology and neon-powered innovation.',
   keywords: 'SaaS, technology, neon, futuristic, innovation',

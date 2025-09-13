@@ -15,8 +15,7 @@ interface NewsArticle {
 }
 
 async function getNewsArticle(id: string): Promise<NewsArticle | null> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-  const res = await fetch(`${baseUrl}/api/news/${id}`, { cache: 'no-store' });
+  const res = await fetch(`/api/news/${id}`, { cache: 'no-store' });
 
   if (!res.ok) {
     return null;
