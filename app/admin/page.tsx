@@ -3,6 +3,7 @@
 import { useState, useEffect, FormEvent, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
+import { getBaseUrl } from "@/lib/api";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -62,7 +63,7 @@ export default function AdminPage() {
   const fetchNews = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/news');
+      const res = await fetch(`${getBaseUrl()}/api/news`);
       const data = await res.json();
       if (data.success) {
         setNews(data.data);
@@ -89,7 +90,7 @@ export default function AdminPage() {
   // Handle deleting a news article
   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`/api/news/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${getBaseUrl()}/api/news/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         toast({ title: "Success", description: "News article deleted." });
@@ -112,7 +113,7 @@ export default function AdminPage() {
         formData.append('tags', article.tags.join(','));
         if(article.videoUrl) formData.append('videoUrl', article.videoUrl);
 
-      const res = await fetch(`/api/news/${article._id}`, {
+      const res = await fetch(`${getBaseUrl()}/api/news/${article._id}`, {
         method: 'PUT',
         body: formData,
       });
@@ -129,7 +130,7 @@ export default function AdminPage() {
   };
 
   const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
+    await fetch(`${getBaseUrl()}/api/auth/logout`, { method: 'POST' });
     router.push('/admin/login');
   };
 
@@ -220,7 +221,7 @@ function NewsForm({ isOpen, setIsOpen, editingNews, onFinished }: NewsFormProps)
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
-    const url = editingNews ? `/api/news/${editingNews._id}` : '/api/news';
+    const url = editingNews ? `${getBaseUrl()}/api/news/${editingNews._id}` : `${getBaseUrl()}/api/news`;
     const method = editingNews ? 'PUT' : 'POST';
 
     try {

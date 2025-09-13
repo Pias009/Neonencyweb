@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
+import { getBaseUrl } from "@/lib/api";
 
 // This is the same data fetching logic and type definition as in the other pages
 interface NewsArticle {
@@ -17,7 +18,7 @@ interface NewsArticle {
 }
 
 async function getNews(): Promise<NewsArticle[]> {
-  const res = await fetch('/api/news', { cache: 'no-store' });
+  const res = await fetch(`${getBaseUrl()}/api/news`, { cache: 'no-store' });
   if (!res.ok) {
     console.error("Failed to fetch news for featured section");
     return [];

@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, ArrowRight, Newspaper } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { getBaseUrl } from "@/lib/api";
 
 export const dynamic = 'force-dynamic'; // Add this line to force dynamic rendering
 
@@ -17,7 +18,7 @@ interface NewsArticle {
 }
 
 async function getNews(): Promise<NewsArticle[]> {
-  const res = await fetch('/api/news', { cache: 'no-store' });
+  const res = await fetch(`${getBaseUrl()}/api/news`, { cache: 'no-store' });
 
   if (!res.ok) {
     // Return empty array or throw error, depending on desired behavior for errors

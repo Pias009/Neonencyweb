@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { getBaseUrl } from "@/lib/api";
 
 interface NewsArticle {
   _id: string;
@@ -15,7 +16,7 @@ interface NewsArticle {
 }
 
 async function getNewsArticle(id: string): Promise<NewsArticle | null> {
-  const res = await fetch(`/api/news/${id}`, { cache: 'no-store' });
+  const res = await fetch(`${getBaseUrl()}/api/news/${id}`, { cache: 'no-store' });
 
   if (!res.ok) {
     return null;
