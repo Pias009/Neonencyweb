@@ -140,7 +140,7 @@ export function HeroSection() {
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Next-generation SaaS platform powered by NEONECY technology and
-            inspired innovation
+            inspired innovation.
           </p>
           <div className="flex items-center justify-center space-x-4 text-sm text-muted-foreground">
             <div className="flex items-center space-x-2">
