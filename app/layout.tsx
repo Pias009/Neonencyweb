@@ -17,11 +17,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     siteName: 'NEONENCY',
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'NEONENCY - Futuristic SaaS Solutions',
-    description: 'Next-generation SaaS platform with cutting-edge technology and neon-powered innovation.',
-  },
+  
   icons: {
     icon: '/images/logo.jpg',
   },
