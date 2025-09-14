@@ -1,12 +1,12 @@
 "use client";
 
-import { useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Card, CardContent } from '@/components/ui/card';
-import { Zap, Shield, Cpu, Rocket, Brain, Globe } from 'lucide-react';
+import { useRef, useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Card, CardContent } from "@/components/ui/card";
+import { Zap, Shield, Cpu, Rocket, Brain, Globe } from "lucide-react";
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
@@ -14,33 +14,38 @@ const features = [
   {
     icon: Zap,
     title: "Lightning Fast",
-    description: "Experience d blazing-fast performance with our optimized infrastructure and edge computing technology."
+    description:
+      "Experience d blazing-fast performance with our optimized infrastructure and edge computing technology.",
   },
   {
     icon: Shield,
     title: "Ultra Secure",
-    description: "Enterprise-grade security with end-to-end encryption and advanced threat protection systems."
+    description:
+      "Enterprise-grade security with end-to-end encryption and advanced threat protection systems.",
   },
   {
     icon: Cpu,
     title: "AI-Powered",
-    description: "Leverage artificial intelligence to automate workflows and gain intelligent insights from your data."
+    description:
+      "Leverage artificial intelligence to automate workflows and gain intelligent insights from your data.",
   },
   {
     icon: Rocket,
     title: "Scalable",
-    description: "Seamlessly scale from startup to enterprise with our flexible and robust cloud infrastructure."
+    description:
+      "Seamlessly scale from startup to enterprise with our flexible and robust cloud infrastructure.",
   },
   {
     icon: Brain,
     title: "Smart Analytics",
-    description: "Advanced analytics and machine learning algorithms provide actionable business intelligence."
+    description:
+      "Advanced analytics and machine learning algorithms provide actionable business intelligence.",
   },
   {
     icon: Globe,
     title: "Global Reach",
-    description: "Worldwide CDN network ensures optimal performance and availability across all continents."
-  }
+    description: "Worldwide CDN network ensures optimal performance and availability across all continents.",
+  },
 ];
 
 export function FeaturesSection() {
@@ -48,7 +53,7 @@ export function FeaturesSection() {
   const cardsRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     const section = sectionRef.current;
     const cards = cardsRef.current;
@@ -68,9 +73,9 @@ export function FeaturesSection() {
             rotationY: 0,
             duration: 0.8,
             stagger: 0.15,
-            ease: "power3.out"
+            ease: "power3.out",
           });
-        }
+        },
       });
 
       // Parallax effect for cards
@@ -83,13 +88,13 @@ export function FeaturesSection() {
           onUpdate: (self) => {
             const y = self.progress * (index % 2 === 0 ? -30 : 30);
             gsap.set(card, { y });
-          }
+          },
         });
       });
     }
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
@@ -98,9 +103,7 @@ export function FeaturesSection() {
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-20">
-          <h2 className="text-5xl md:text-6xl font-black orbitron neon-text mb-6">
-            Features
-          </h2>
+          <h2 className="text-5xl md:text-6xl font-black orbitron neon-text mb-6">Features</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Discover the power of next-generation technology with features designed for the future
           </p>
@@ -111,7 +114,9 @@ export function FeaturesSection() {
           {features.map((feature, index) => (
             <Card
               key={index}
-              ref={el => el && (cardsRef.current[index] = el)}
+              ref={(el) => {
+                if (el) cardsRef.current[index] = el;
+              }}
               className="group glass-strong hover:glass hover:neon-glow transition-all duration-500 border-2 border-white/10 hover:border-cyan-400/30 rounded-3xl overflow-hidden cursor-pointer transform hover:scale-105"
             >
               <CardContent className="p-8">
@@ -120,15 +125,13 @@ export function FeaturesSection() {
                     <feature.icon className="w-8 h-8 text-cyan-400 group-hover:text-purple-400 transition-colors duration-300" />
                   </div>
                 </div>
-                
+
                 <h3 className="text-2xl font-bold orbitron mb-4 group-hover:neon-text transition-all duration-300">
                   {feature.title}
                 </h3>
-                
-                <p className="text-muted-foreground leading-relaxed">
-                  {feature.description}
-                </p>
-                
+
+                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+
                 {/* Hover effect overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/5 via-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </CardContent>

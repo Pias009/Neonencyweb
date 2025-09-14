@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Zap, ArrowRight, Eye, Info } from 'lucide-react';
+import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Zap, ArrowRight, Eye, Info } from "lucide-react";
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
@@ -35,7 +35,7 @@ export default function ProductsPage() {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch('/api/products');
+      const response = await fetch("/api/products");
       const data = await response.json();
       setProducts(data);
     };
@@ -43,14 +43,14 @@ export default function ProductsPage() {
   }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || products.length === 0) return;
+    if (typeof window === "undefined" || products.length === 0) return;
 
     const header = headerRef.current;
     const cards = cardsRef.current;
 
     if (cards.length > 0) {
       gsap.set(cards, { opacity: 0, y: 100, rotationY: -10 });
-      
+
       ScrollTrigger.create({
         trigger: cards[0],
         start: "top 80%",
@@ -61,14 +61,14 @@ export default function ProductsPage() {
             rotationY: 0,
             duration: 0.8,
             stagger: 0.15,
-            ease: "power3.out"
+            ease: "power3.out",
           });
-        }
+        },
       });
     }
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, [products]);
 
@@ -76,11 +76,11 @@ export default function ProductsPage() {
     <div className="pt-24 pb-16 px-4">
       <div className="max-w-7xl mx-auto">
         <div ref={headerRef} className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-black mb-5">
-            PRODUCTS
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-black mb-5">PRODUCTS</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Discover our suite of cutting-edge products designed to accelerate your digital transformation. We focus on building decentralized applications using Web3 technologies to create a more open and transparent digital world.
+            Discover our suite of cutting-edge products designed to accelerate your digital transformation. We
+            focus on building decentralized applications using Web3 technologies to create a more open and
+            transparent digital world.
           </p>
         </div>
 
@@ -88,20 +88,15 @@ export default function ProductsPage() {
           {products.map((product, index) => (
             <Card
               key={product.id}
-              ref={el => el && (cardsRef.current[index] = el)}
+              ref={(el) => {
+                if (el) cardsRef.current[index] = el;
+              }}
               className="group glass-strong hover:glass hover:neon-glow transition-all duration-500 border-2 border-white/10 hover:border-cyan-400/30 rounded-3xl overflow-hidden h-full relative"
             >
               <div className="flex flex-col lg:flex-row h-full">
                 <div className="relative w-full lg:w-1/2 h-[580px] lg:h-[250px] overflow-hidden">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover"
-                  />
-                  <Badge className="absolute top-4 left-4 glass">
-                    {product.category}
-                  </Badge>
+                  <Image src={product.image} alt={product.name} fill className="object-cover" />
+                  <Badge className="absolute top-4 left-4 glass">{product.category}</Badge>
                 </div>
 
                 <div className="w-full lg:w-1/2 p-6 flex flex-col">
@@ -127,25 +122,30 @@ export default function ProductsPage() {
                     </div>
                   </CardContent>
                   <div className="mt-auto pt-6 flex gap-4">
-                      <a href="https://adminpay.neonecy.com/" target="_blank" rel="noopener noreferrer" className="w-full">
-                        <Button 
-                          size="sm"
-                          className="group/btn glass hover:neon-glow transition-all duration-300 rounded-xl w-full"
-                        >
-                          <Eye className="w-4 h-4 mr-2" />
-                          Buy Now
-                          <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                        </Button>
-                      </a>
-                      <Button 
+                    <a
+                      href="https://adminpay.neonecy.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full"
+                    >
+                      <Button
                         size="sm"
-                        variant="outline"
-                        onClick={() => setSelectedProduct(product)}
-                        className="group/btn glass hover:neon-glow transition-all duration-300 rounded-xl w-full opacity-0 group-hover:opacity-100"
+                        className="group/btn glass hover:neon-glow transition-all duration-300 rounded-xl w-full"
                       >
-                        <Info className="w-4 h-4 mr-2" />
-                        Product Info
+                        <Eye className="w-4 h-4 mr-2" />
+                        Buy Now
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" />
                       </Button>
+                    </a>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setSelectedProduct(product)}
+                      className="group/btn glass hover:neon-glow transition-all duration-300 rounded-xl w-full opacity-0 group-hover:opacity-100"
+                    >
+                      <Info className="w-4 h-4 mr-2" />
+                      Product Info
+                    </Button>
                   </div>
                 </div>
               </div>

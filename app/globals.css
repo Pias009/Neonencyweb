@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap");
 
 :root {
   --neon-cyan: #00ffff;
@@ -49,7 +49,7 @@
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
-  
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -79,21 +79,21 @@
 }
 
 @layer base {
-  * {
-    
-  }
   body {
-   
-
     min-height: 100vh;
   }
-  
+
   .dark body {
-    background: linear-gradient(135deg, 
-      rgba(0, 0, 0, 0.95) 0%, 
-      rgba(20, 20, 40, 0.98) 50%, 
-      rgba(0, 0, 0, 0.95) 100%);
-  }h1, h3, h2 {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(20, 20, 40, 0.98) 50%,
+      rgba(0, 0, 0, 0.95) 100%
+    );
+  }
+  h1,
+  h3,
+  h2 {
     color: var(--neon-yellow);
   }
 }
@@ -108,7 +108,7 @@
     background-color: rgba(0, 0, 0, 0.1);
     border-color: rgba(255, 255, 255, 0.1); /* Equivalent to dark:border-white/10 */
   }
-  
+
   .glass-strong {
     backdrop-filter: blur(24px);
     background-color: rgba(255, 255, 255, 0.2);
@@ -118,28 +118,36 @@
     background-color: rgba(0, 0, 0, 0.2);
     border-color: rgba(255, 255, 255, 0.2); /* Equivalent to dark:border-white/20 */
   }
-  
- 
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   .animate-glow {
     animation: glow 2s ease-in-out infinite alternate;
   }
-  
+
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
   }
-  
+
   @keyframes glow {
-    from { box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); }
-    to { box-shadow: 0 0 30px rgba(0, 255, 255, 0.7), 0 0 40px rgba(255, 0, 255, 0.3); }
+    from {
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    to {
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.7), 0 0 40px rgba(255, 0, 255, 0.3);
+    }
   }
-  
+
   .orbitron {
-    font-family: 'Orbitron', monospace;
+    font-family: "Orbitron", monospace;
   }
 }
 

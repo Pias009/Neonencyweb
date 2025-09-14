@@ -7,8 +7,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Clock, Users, ArrowRight, Sparkles, Newspaper } from "lucide-react";
-import { TypeAnimation } from 'react-type-animation';
-
+import { TypeAnimation } from "react-type-animation";
 
 // Register ScrollTrigger plugin only on client side
 if (typeof window !== "undefined") {
@@ -23,13 +22,15 @@ const expertise = [
   },
   {
     title: "Blockchain devlopment,",
-    description: "Developing secure and scalable blockchain solutions, smart contracts, and decentralized applications.",
+    description:
+      "Developing secure and scalable blockchain solutions, smart contracts, and decentralized applications.",
 
     icon: "🌐",
   },
   {
     title: "Web 3.0 Development",
-    description: "Creating decentralized applications (dApps) with blockchain integration and smart contracts.",
+    description:
+      "Creating decentralized applications (dApps) with blockchain integration and smart contracts.",
     icon: "🪙",
   },
   {
@@ -44,13 +45,13 @@ const expertise = [
   },
   {
     title: "Flutter Development",
-    description: "Creating cross-platform mobile apps with beautiful UI and smooth performance using Flutter.",
+    description:
+      "Creating cross-platform mobile apps with beautiful UI and smooth performance using Flutter.",
     icon: "📱",
   },
 ];
 
 const jobs = [
-
   {
     id: 1,
     title: "Flutter Developer",
@@ -58,7 +59,8 @@ const jobs = [
     location: "Remote / Worldwide",
     type: "Full-time",
     level: "Senior",
-    description: "Develop cross-platform mobile applications with Flutter, implementing beautiful UIs and smooth animations while ensuring high performance.",
+    description:
+      "Develop cross-platform mobile applications with Flutter, implementing beautiful UIs and smooth animations while ensuring high performance.",
     skills: ["Flutter", "Dart", "Firebase", "State Management", "REST APIs"],
     salary: "$120k - $180k",
   },
@@ -69,7 +71,8 @@ const jobs = [
     location: "Remote / Worldwide",
     type: "Full-time",
     level: "Senior",
-    description: "Build scalable backend systems using Node.js, Express, and MongoDB, focusing on API development, database optimization, and system architecture.",
+    description:
+      "Build scalable backend systems using Node.js, Express, and MongoDB, focusing on API development, database optimization, and system architecture.",
     skills: ["Node.js", "Express", "MongoDB", "REST APIs", "Microservices"],
     salary: "$130k - $190k",
   },
@@ -80,11 +83,11 @@ const jobs = [
     location: "Remote / Worldwide",
     type: "Full-time",
     level: "Mid-Senior",
-    description: "Create intuitive user interfaces and engaging user experiences for our digital products, from wireframing to high-fidelity prototypes.",
+    description:
+      "Create intuitive user interfaces and engaging user experiences for our digital products, from wireframing to high-fidelity prototypes.",
     skills: ["Figma", "User Research", "Prototyping", "UI Design", "Design Systems"],
     salary: "$110k - $160k",
   },
-
 ];
 
 const benefits = [
@@ -101,13 +104,14 @@ const benefits = [
 const productDetails = {
   appName: "NeoStack",
   title: "Web3 Development Framework",
-  description: "A comprehensive development framework for building secure, scalable decentralized applications.",
+  description:
+    "A comprehensive development framework for building secure, scalable decentralized applications.",
   roadmap: [
     "Smart Contract Development & Integration",
     "Blockchain Network Setup",
     "Web3 Frontend Implementation",
     "Security Auditing & Testing",
-    "Mainnet Deployment"
+    "Mainnet Deployment",
   ],
   technologies: [
     { name: "Solidity", icon: "⚡" },
@@ -115,8 +119,8 @@ const productDetails = {
     { name: "IPFS", icon: "📦" },
     { name: "Ethers.js", icon: "🌐" },
     { name: "Web3.js", icon: "🔗" },
-    { name: "OpenZeppelin", icon: "🛡️" }
-  ]
+    { name: "OpenZeppelin", icon: "🛡️" },
+  ],
 };
 
 export default function CombinedPage() {
@@ -132,7 +136,7 @@ export default function CombinedPage() {
 
     // Cleanup function
     const cleanup = () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
+      ScrollTrigger.getAll().forEach((t) => t.kill());
     };
 
     // News header animation
@@ -165,14 +169,14 @@ export default function CombinedPage() {
 
     // Careers header animation
     if (headerRef.current) {
-      gsap.from(headerRef.current, { 
-        opacity: 0, 
-        y: 60, 
+      gsap.from(headerRef.current, {
+        opacity: 0,
+        y: 60,
         duration: 1,
         scrollTrigger: {
           trigger: headerRef.current,
           start: "top 80%",
-        }
+        },
       });
     }
 
@@ -232,9 +236,7 @@ export default function CombinedPage() {
               className="text-4xl md:text-5xl font-bold orbitron text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"
               repeat={1}
             />
-            <p className="text-gray-300 mt-4 max-w-3xl mx-auto">
-              {productDetails.description}
-            </p>
+            <p className="text-gray-300 mt-4 max-w-3xl mx-auto">{productDetails.description}</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mt-12">
@@ -269,8 +271,6 @@ export default function CombinedPage() {
               </div>
             </div>
           </div>
-
-        
         </div>
       </div>
 
@@ -282,7 +282,9 @@ export default function CombinedPage() {
         {jobs.map((job, index) => (
           <Card
             key={job.id}
-            ref={el => jobsRef.current[index] = el}
+            ref={(el) => {
+              jobsRef.current[index] = el;
+            }}
             className="group bg-gradient-to-br from-gray-900 to-gray-800 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-500 border border-gray-700 hover:border-cyan-400/30 rounded-3xl overflow-hidden"
           >
             <CardHeader>
@@ -308,9 +310,7 @@ export default function CombinedPage() {
                       <span>{job.type}</span>
                     </div>
                   </div>
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {job.description}
-                  </p>
+                  <p className="text-muted-foreground mb-4 leading-relaxed">{job.description}</p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {job.skills.map((skill, idx) => (
                       <Badge key={idx} variant="secondary" className="bg-gray-700 text-xs">
@@ -320,7 +320,7 @@ export default function CombinedPage() {
                   </div>
                 </div>
                 <div className="md:ml-8 flex flex-col items-end gap-4">
-                  <a 
+                  <a
                     href={`mailto:neonency.agency@gmail.com?subject=Application for ${job.title}&body=I am interested in the ${job.title} position at Neonency.%0D%0A%0D%0APosition Details:%0D%0A- Role: ${job.title}%0D%0A- Department: ${job.department}%0D%0A- Level: ${job.level}%0D%0A%0D%0APlease find my application attached.`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -342,7 +342,9 @@ export default function CombinedPage() {
         {expertise.map((item, index) => (
           <div
             key={index}
-            ref={el => expertiseRefs.current[index] = el}
+            ref={(el) => {
+              expertiseRefs.current[index] = el;
+            }}
             className="p-6 bg-gray-900 text-white rounded-xl shadow-lg border border-gray-700 hover:border-cyan-400 hover:shadow-cyan-500/50 transition-all duration-300"
           >
             <div className="text-4xl mb-4">{item.icon}</div>
@@ -368,9 +370,7 @@ export default function CombinedPage() {
               className="text-4xl md:text-5xl font-bold orbitron text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"
               repeat={1}
             />
-            <p className="text-gray-300 mt-4 max-w-3xl mx-auto">
-              {productDetails.description}
-            </p>
+            <p className="text-gray-300 mt-4 max-w-3xl mx-auto">{productDetails.description}</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mt-12">
